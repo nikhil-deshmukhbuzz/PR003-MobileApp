@@ -1,0 +1,43 @@
+<div ng-controller="noticeperiodCTRL" layout="column" ng-cloak>
+    <md-card md-theme="default" md-theme-watch>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">{{headline}}</span>
+            </md-card-title-text>
+        </md-card-title>
+
+        <form name="form">
+            <md-card-content layout-padding>
+                <md-input-container>
+                    <label>Room No</label>
+                    <md-select ng-model="oTenant.RoomID">
+                        <md-option ng-repeat="r in room" ng-value="r.RoomID" ng-click="roomNoChangedEvent(r)">
+                        {{r.RoomNo}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Tenant</label>
+                    <md-select ng-model="oTenant.TenantID">
+                        <md-option ng-repeat="t in tenant" ng-value="t.TenantID" >
+                        {{t.FullName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+ 
+
+                <md-input-container  class="md-block">
+                        <label>"Check-Out Date</label>
+                    <md-datepicker class="md-block" ng-model="oTenant. CheckOutDate" aria-label="Check In Date"></md-datepicker>
+                </md-input-container>
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="center">
+                    <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
+                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="submit()">SAVE</md-button>
+            </md-card-actions>
+        </form>
+    </md-card>      
+</div>

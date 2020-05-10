@@ -1,0 +1,18 @@
+<md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+<div ng-controller="requestCTRL" ng-init="initialize()">
+   
+    <md-content>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="item in listOfRegistration">
+                <div class="md-list-item-text">
+                    <h3>{{item.PGName}}</h3>
+                    <h4>{{item.FullName}}</h4>
+                    <p>{{item.MobileNo}}</p>
+                </div>
+                <md-button class="md-secondary" ng-disabled="isProgress" ng-click="activation(item)">Respond</md-button>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+            <p ng-hide="listOfRegistration.length" style="text-align: center;">No data available</p>
+        </md-list>
+    </md-content>
+</div>

@@ -1,0 +1,156 @@
+﻿.error {
+    color: #E74C3C !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.5) url(../images/Preloader_3.gif) center center no-repeat;
+    z-index: 2;
+    cursor: pointer;
+}
+
+button[type="submit"]:disabled {
+    cursor: no-drop;
+}
+
+/*customized css*/
+
+.icon-container {
+    width: 50px;
+    padding: .7em 0;
+    float: left;
+    position: relative;
+    text-align: left;
+}
+
+/*end customized css*/
+
+
+
+#snackbar {
+    visibility: hidden;
+    /*min-width: 250px;*/
+    /*margin-left: -125px;*/
+    background-color: #F7F7F7;
+    border: 1px solid rgba(0,0,0,.125);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 0px;
+    position: fixed;
+    z-index: 1;
+    bottom: 10px;
+    font-size: 17px;
+    width: 800px;
+    left: 30%;
+}
+
+    #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s;
+        animation: fadein 0.5s;
+        /*-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;*/
+    }
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+
+/*Radio*/
+input[type='radio'] {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: 0 0 0 2px gray;
+}
+
+    input[type='radio']:checked {
+        box-shadow: 0 0 0 2px #4998E8;
+    }
+
+    input[type='radio']:before {
+        content: '';
+        display: block;
+        width: 60%;
+        height: 60%;
+        margin: 20% auto;
+        border-radius: 50%;
+    }
+
+    input[type='radio']:checked:before {
+        background: #4998E8;
+    }
+
+    /*table scroll*/
+.table-scroll {
+    overflow-y: auto;
+    max-height: 450px
+}
+
+.text-align-right{
+    text-align:right
+}
+
+.min-width-100{
+    min-width:100px
+}

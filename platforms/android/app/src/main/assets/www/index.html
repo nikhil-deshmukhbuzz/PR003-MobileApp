@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
+
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' https://*.razorpay.com 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+   
+    <!-- Angular Material style sheet -->
+    <link href="scripts/angular/angular-material.min.css" rel="stylesheet" />
+
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+        <!--=======================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+        <!--=======================================================================================-->
+        <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+        <!--=======================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+        <!--=======================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+        <!--=======================================================================================-->
+        <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <!--===============================================================================================-->
+ 
+
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/loader.css">
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="scripts/angular/angular.min.js"></script>
+    <script src="scripts/angular/angular-route.js"></script>
+    <script src="scripts/angular/angular-animate.min.js"></script>
+    <script src="scripts/angular/angular-aria.min.js"></script>
+    <script src="scripts/angular/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="scripts/angular/angular-material.min.js"></script>
+
+
+    <title>MobileApp</title>
+</head>
+<body ng-app="MobileApp" ng-controller="indexCTRL">
+
+    <div ng-show="registration" ng-include="'view/template/registration.html'"></div>
+    <div ng-show="login" ng-include="'view/template/login.html'"></div>
+
+    <md-toolbar class="md-hue-2" ng-show="home" md-scroll-shrink="true" style="position: fixed;">
+        <div class="md-toolbar-tools">
+            <md-button ng-if="isDashboard" class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
+                <md-icon  md-svg-icon="img/icons/menu.svg"></md-icon>
+            </md-button>
+            <md-button ng-if="!isDashboard" class="md-icon-button" aria-label="Settings" ng-click="back()">
+                <md-icon  md-svg-icon="img/icons/arrow_back-24.svg"></md-icon>
+            </md-button>
+            
+            <h2 flex md-truncate>{{toolbar_name}}</h2>
+        </div>
+    </md-toolbar>
+
+    <section layout="row" flex ng-show="home" ng-click="closeSideNav()">
+        
+        <md-sidenav class="md-sidenav-left" md-component-id="left"
+                    md-disable-backdrop="" md-whiteframe="4">
+    
+            <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Hello, Nikhil</h1>
+            </md-toolbar>
+    
+            <md-content layout-margin="">
+            <div ng-click="showMenu(item.Url)" ng-repeat="item in menu">
+                {{item.MenuName}}
+            </div>
+            
+            </md-content>
+        </md-sidenav>
+        
+        <md-content class="md-block"  layout-padding style="margin-top: 50px; width:1000px">
+            <div  layout="column">
+                <ng-view></ng-view>
+            </div>
+        </md-content>
+        
+    </section>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
+
+    <script src="scripts/services/coreService.js"></script>
+    <script src="scripts/services/registrationService.js"></script>
+    <script src="scripts/services/loginService.js"></script>
+    <script src="scripts/services/requestService.js"></script>
+    <script src="scripts/services/roomsharingService.js"></script>
+    <script src="scripts/services/roomService.js"></script>
+    <script src="scripts/services/tenantService.js"></script>
+    <script src="scripts/services/noticeperiodService.js"></script>
+    <script src="scripts/services/rentService.js"></script>
+    <script src="scripts/services/dashboardService.js"></script>
+    <script src="scripts/services/payService.js"></script>
+
+    <script src="scripts/controllers/homeCTRL.js"></script>
+    <script src="scripts/controllers/requestCTRL.js"></script>
+    <script src="scripts/controllers/roomsharingCTRL.js"></script>
+    <script src="scripts/controllers/roomCTRL.js"></script>
+    <script src="scripts/controllers/tenantCTRL.js"></script>
+    <script src="scripts/controllers/noticeperiodCTRL.js"></script>
+    <script src="scripts/controllers/rentCTRL.js"></script>
+    <script src="scripts/controllers/payCTRL.js"></script>
+    <script src="scripts/controllers/successCTRL.js"></script>
+    <script src="scripts/controllers/indexCTRL.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<div ng-controller="tenantCTRL" layout="column" ng-cloak>
+        <md-card md-theme="default" md-theme-watch>
+            <md-card-title>
+                <md-card-title-text>
+                <span class="md-headline">{{headline}}</span>
+                </md-card-title-text>
+            </md-card-title>
+    
+            <form name="form">
+                <md-card-content layout-padding>
+                    <md-input-container>
+                        <label>Room No</label>
+                        <md-select required ng-model="oTenant.RoomID">
+                            <md-option ng-repeat="r in room" ng-value="r.RoomID" ng-click="roomNoChangedEvent(r)">
+                            {{r.RoomNo}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Full Name</label>
+                        <input required name="name" ng-model="oTenant.FullName">
+                        <small ng-show="form.name.$invalid && !form.name.$pristine" class="error"> Full name is required.</small>
+                    </md-input-container>
+    
+                    <md-input-container class="md-block">
+                        <label>Mobile No</label>
+                        <input required name="mobile" ng-model="oTenant.MobileNo" ng-disabled="isEdit">
+                        <small ng-show="form.mobile.$invalid && !form.mobile.$pristine" class="error"> Mobile No is required.</small>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Rent (Rs)</label>
+                        <input required name="rentAmount" ng-model="oTenant.RentAmount">
+                        <small ng-show="form.rentAmount.$invalid && !form.rentAmount.$pristine" class="error"> Rent is required.</small>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                            <label>Deposite (Rs)</label>
+                            <input required name="depositAmount" ng-model="oTenant.DepositAmount">
+                            <small ng-show="form.depositAmount.$invalid && !form.depositAmount.$pristine" class="error"> Deposit is required.</small>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                            <label>Email</label>
+                            <input  name="email" ng-model="oTenant.Email">
+                    </md-input-container>
+    
+                    <md-input-container  class="md-block">
+                            <label>"Check In Date</label>
+                        <md-datepicker class="md-block" ng-model="oTenant. CheckInDate" aria-label="Check In Date"></md-datepicker>
+                    </md-input-container>
+                </md-card-content>
+    
+                <md-card-actions layout="row" layout-align="center">
+                        <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
+                    <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="submit()">SAVE</md-button>
+                </md-card-actions>
+            </form>
+        </md-card>      
+    </div>

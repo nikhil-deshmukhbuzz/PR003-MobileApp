@@ -1,0 +1,49 @@
+<div ng-controller="roomCTRL" layout="column" ng-cloak>
+        <md-card md-theme="default" md-theme-watch>
+    
+            <md-card-title>
+                 <md-card-title-text>
+                     <span class="md-headline">{{headline}}</span>
+                 </md-card-title-text>
+            </md-card-title>
+    
+            <form name="form">
+                <md-card-content layout-padding>
+                    <md-input-container class="md-block">
+                        <label>Room No</label>
+                        <input required name="roomNo" ng-model="oRoom.RoomNo" maxlength="8">
+                        <small ng-show="form.roomNo.$invalid && !form.roomNo.$pristine" class="error"> Room No is required.</small>
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>Room Sharing</label>
+                        <md-select required ng-model="oRoom.RoomSharingID" name="roomSharing">
+                            <md-option ng-repeat="r in roomSharing" ng-value="r.RoomSharingID" >
+                            {{r.Name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+    
+                    <md-input-container class="md-block">
+                        <label>Rent (Rs)</label>
+                        <input type="number" onlyDigits required name="rentAmount" ng-model="oRoom.RentAmount">
+                        <small ng-show="form.rentAmount.$invalid && !form.rentAmount.$pristine" class="error"> Rent is required.</small>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Deposit (Rs)</label>
+                        <input type="number" onlyDigits required name="depositAmount" ng-model="oRoom.DepositAmount">
+                        <small ng-show="form.depositAmount.$invalid && !form.depositAmount.$pristine" class="error"> Deposit is required.</small>
+                    </md-input-container>
+     
+                    <md-switch ng-model="oRoom.IsActive" aria-label="Switch">
+                        Active   
+                    </md-switch>
+    
+                <md-card-actions layout="row" layout-align="center">
+                    <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
+                    <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="submit()">SAVE</md-button>
+                </md-card-actions>
+            </form>
+        </md-card>      
+    </div>

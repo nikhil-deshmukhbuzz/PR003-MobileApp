@@ -1,0 +1,57 @@
+<div layout="column" ng-cloak ng-controller="registrationCTRL">
+    <md-card md-theme="default" md-theme-watch>
+        <md-card-title>
+            <md-card-title-text>
+            <span class="md-headline">Registration</span>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+
+        <form name="form">
+            <md-card-content layout-padding>
+                <md-input-container class="md-block">
+                    <label>PG Name</label>
+                    <input required name="pgname" ng-model="oRegistration.PGName">
+                    <small ng-show="form.pgname.$invalid && !form.pgname.$pristine" class="error"> PG name is required.</small>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Your Full Name</label>
+                    <input required name="name" ng-model="oRegistration.FullName">
+                    <small ng-show="form.name.$invalid && !form.name.$pristine" class="error"> Full name is required.</small>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Mobile No</label>
+                    <input required name="mobile" ng-model="oRegistration.MobileNo">
+                    <small ng-show="form.mobile.$invalid && !form.mobile.$pristine" class="error"> Mobile no is required.</small>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Email</label>
+                    <input  name="email" ng-model="oRegistration.Email">
+                    <small ng-show="form.email.$invalid && !form.email.$pristine" class="error"> Email is required.</small>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Address</label>
+                    <input required name="address" ng-model="oRegistration.Address">
+                    <small ng-show="form.address.$invalid && !form.address.$pristine" class="error"> Address is required.</small>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>City</label>
+                    <input required name="city" ng-model="oRegistration.City">
+                    <small ng-show="form.city.$invalid && !form.city.$pristine" class="error"> City is required.</small>
+                </md-input-container>
+
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="center">
+                <md-button class="md-raised" ng-click="cancel(form)">CANCEL</md-button>
+                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="registrationSubmit(form)">SAVE</md-button>
+            </md-card-actions>
+        </form>
+    </md-card>      
+</div>

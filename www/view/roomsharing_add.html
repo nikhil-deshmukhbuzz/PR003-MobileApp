@@ -1,0 +1,34 @@
+<div ng-controller="roomsharingCTRL" layout="column" ng-cloak>
+    <md-card md-theme="default" md-theme-watch>
+
+        <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+
+        <form name="form">
+            <md-card-content layout-padding>
+                <md-input-container class="md-block">
+                    <label>Name</label>
+                    <input required name="name" ng-model="oRoomSharing.Name">
+                    <div ng-messages="form.name.$error">
+                         Name is required.
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>No Of Bed</label>
+                    <input required name="name" ng-model="oRoomSharing.NoOfBed">
+                    <div ng-messages="form.noOfBed.$error">
+                        <div ng-message="required">No Of Bed is required.</div>
+                    </div>
+                </md-input-container>
+ 
+                <md-switch ng-model="oRoomSharing.IsActive" aria-label="Switch">
+                    Active   
+                </md-switch>
+
+            <md-card-actions layout="row" layout-align="center">
+                <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
+                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="submit()">SAVE</md-button>
+            </md-card-actions>
+        </form>
+    </md-card>      
+</div>

@@ -1,0 +1,72 @@
+<div ng-controller="rentCTRL" layout="column" ng-cloak>
+    <md-card md-theme="default" md-theme-watch>
+        <md-card-title>
+            <md-card-title-text>
+                    <span class="md-headline">{{headline}}</span>
+            </md-card-title-text>
+        </md-card-title>
+
+        <form name="form">
+            <md-card-content layout-padding>
+
+                <md-input-container>
+                    <label>Tenant</label>
+                    <md-select ng-model="oRent.TenantID" ng-disabled="isEditable">
+                        <md-option ng-repeat="t in tenant" ng-value="t.TenantID" >
+                        {{t.FullName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Month</label>
+                    <md-select ng-model="oRent.MonthID" ng-disabled="isEditable">
+                        <md-option ng-value="1" >Jan</md-option>
+                        <md-option ng-value="2" >Feb</md-option>
+                        <md-option ng-value="3" >March</md-option>
+                        <md-option ng-value="4" >April</md-option>
+                        <md-option ng-value="5" >May</md-option>
+                        <md-option ng-value="6" >June</md-option>
+                        <md-option ng-value="7" >July</md-option>
+                        <md-option ng-value="8" >Aug</md-option>
+                        <md-option ng-value="9" >Sept</md-option>
+                        <md-option ng-value="10" >Oct</md-option>
+                        <md-option ng-value="11" >Nov</md-option>
+                        <md-option ng-value="12" >Dec</md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Year</label>
+                    <md-select ng-model="oRent.Year" ng-disabled="isEditable">
+                        <md-option ng-repeat="y in year" ng-value="y" >
+                        {{y}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Rent (Rs)</label>
+                    <input required name="rentAmount" ng-model="oRent.RentAmount" ng-disabled="isPaid">
+                    <div ng-messages="form.rentAmount.$error">
+                        <div ng-message="required">Rent is required.</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Payment</label>
+                    <md-select ng-model="oRent.PaymentStatusID" ng-disabled="isPaid">
+                        <md-option ng-repeat="p in payment" ng-value="p.PaymentStatusID" >
+                        {{p.Status}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </md-card-content>
+
+            <md-card-actions layout="row" layout-align="center">
+                    <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
+                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress || isPaid" ng-click="submit()">SAVE</md-button>
+            </md-card-actions>
+        </form>
+    </md-card>      
+</div>
