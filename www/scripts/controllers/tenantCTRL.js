@@ -2,6 +2,8 @@ var app = angular.module('tenant-module', ['ngMaterial', 'ngRoute', 'ngMessages'
 
 app.controller('tenantCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,tenantService,roomService) {
 
+    $rootScope.toolbar_name = 'Tenant';
+    
     if($routeParams.id != undefined){
         
         if($routeParams.id != 0){

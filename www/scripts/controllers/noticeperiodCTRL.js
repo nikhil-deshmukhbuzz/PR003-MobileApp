@@ -1,7 +1,7 @@
 var app = angular.module('noticeperiod-module', ['ngMaterial', 'ngRoute', 'ngMessages']);
 
 app.controller('noticeperiodCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,noticeperiodService,roomService,tenantService) {
-
+    alert('data');
     if($routeParams.id != undefined){
         
         if($routeParams.id != 0){
@@ -75,6 +75,20 @@ app.controller('noticeperiodCTRL', function ($scope,$rootScope, $location,$route
         coreService.showInd();
         $scope.oTenant.PGID = coreService.getPGID();
         noticeperiodService.update($scope.oTenant)
+                .then(function (response) {
+                    coreService.hideInd();
+                    coreService.showToast(coreService.message.updated);
+                    $location.path('/noticeperiod');
+                }, function (err) {
+                    coreService.hideInd();
+                    console.log(err.data);
+            });
+    };
+
+    $scope.checkout = function(){
+        coreService.showInd();
+        $scope.oTenant.PGID = coreService.getPGID();
+        noticeperiodService.checkout($scope.oTenant)
                 .then(function (response) {
                     coreService.hideInd();
                     coreService.showToast(coreService.message.updated);

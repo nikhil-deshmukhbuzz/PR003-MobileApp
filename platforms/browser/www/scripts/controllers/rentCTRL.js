@@ -2,6 +2,7 @@ var app = angular.module('rent-module', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
 app.controller('rentCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,rentService,tenantService) {
 
+    $rootScope.toolbar_name = 'Rent';
     $scope.isEditable = false;
     $scope.isPaid = false;
     $scope.oRentFilter = {};

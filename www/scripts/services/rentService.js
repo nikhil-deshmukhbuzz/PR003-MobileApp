@@ -25,4 +25,25 @@ serv.service('rentService', function ($http, config) {
         return $http.post(config.baseUrl + '/Rent/CalculateForPG?pgId='+pgId);
 
     };
+
+    this.getTenantReceipts = function (tenantId,pgId) {
+        return $http.get(config.baseUrl + '/Rent/GetTenantReceipts?tenantId='+tenantId+'&pgId='+pgId);
+
+    };
+
+    this.checkInvoiceTransaction = function (request) {
+        return $http.post(config.baseUrl + '/Rent/CheckInvoiceTransaction',request);
+
+    };
+
+    this.addTransaction = function (request) {
+        return $http.post(config.baseUrl + '/Rent/AddTransaction',request);
+
+    };
+
+    
+    this.updateRentPaymnetStatusToPaid = function (rent) {
+        return $http.post(config.baseUrl + '/Rent/UpdateRentPaymnetStatusToPaid',rent);
+
+    };
 });

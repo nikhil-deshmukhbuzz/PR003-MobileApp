@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "960019423962",
+    "firebase_url": "https://pr003-30089.firebaseio.com",
+    "project_id": "pr003-30089",
+    "storage_bucket": "pr003-30089.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:960019423962:android:16eaad4cfc74e9b61e7be3",
+        "android_client_info": {
+          "package_name": "com.maintaineasy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "960019423962-anhv6oai5rbu9j9p6cr154ud8p6bap39.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYrwrAf2938CeSnuqL1cJwK2fe92a_hRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "960019423962-anhv6oai5rbu9j9p6cr154ud8p6bap39.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

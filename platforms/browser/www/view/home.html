@@ -1,118 +1,153 @@
 <div ng-controller="homeCTRL" ng-init="initialize()" ng-click="closeSideNav()">
-    <div layout="row" style="overflow:scroll">
-        <md-card md-theme="default" md-theme-watch class="dashbord-card card-green" ng-click="availableBedClk()">
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-subhead text-center">Available Bed</span>
-                    <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
-                    <span class="md-headline text-center" ng-hide="dashboard == null" style="color:green"> 
-                        {{("00"+dashboard.NoOfBedAvailable).slice(-3)}}
-                    </span>
-                    <md-icon md-svg-src="../img/icons/hotel-bed-line.svg" class="s36" aria-label="Cake">
-                </md-card-title-text>
-            </md-card-title>
-        </md-card>
-        <md-card md-theme="default" md-theme-watch class="dashbord-card card-red" ng-click="dueRentClk()">
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-subhead text-center">Due Rent</span>
-                    <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
-                    <span class="md-headline text-center" ng-hide="dashboard == null" style="color:red">
-                        {{("00"+dashboard.NoOfDueRent).slice(-3)}}
-                     </span>
-                     <md-icon md-svg-src="../img/icons/money-bill-alt.svg" class="s36" aria-label="Cake"></md-icon> 
-                </md-card-title-text>
-            </md-card-title>
-        </md-card>
-        <md-card md-theme="default" md-theme-watch class="dashbord-card card-blue" ng-click="onNoticeClk()">
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-subhead text-center">On Notice</span>
-                    <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
-                    <span class="md-headline text-center" ng-hide="dashboard == null" style="color:blue">
-                        {{("00"+dashboard.NoOfOnNotice).slice(-3)}}
-                     </span>
-                     <md-icon md-svg-src="../img/icons/notice-active.svg" class="s36" aria-label="Cake"></md-icon> 
-                </md-card-title-text>
-            </md-card-title>
-        </md-card>
-        <md-card md-theme="default" md-theme-watch class="dashbord-card card-pink" ng-click="dueRentClk()">
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-subhead text-center">Issue</span>
-                    <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
-                    <span class="md-headline text-center" ng-hide="dashboard == null" style="color:rgb(233, 12, 148)">
-                        {{0}}
-                    </span>
-                    <md-icon md-svg-src="../img/icons/issue-reopened.svg" class="s36" aria-label="Cake"></md-icon> 
-                </md-card-title-text>
-            </md-card-title>
-        </md-card>
+    <div ng-show="vDashboardPGOwner">
+        <div layout="row" style="overflow:scroll">
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-green" ng-click="availableBedClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">Available Bed</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:green"> 
+                            {{("00"+dashboard.NoOfBedAvailable).slice(-3)}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/hotel-bed-line.svg" class="s36" aria-label="Cake">
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-red" ng-click="dueRentClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">Due Rent</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:red">
+                            {{("00"+dashboard.NoOfDueRent).slice(-3)}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/money-bill-alt.svg" class="s36" aria-label="Cake"></md-icon> 
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-blue" ng-click="onNoticeClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">On Notice</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:blue">
+                            {{("00"+dashboard.NoOfOnNotice).slice(-3)}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/notice-active.svg" class="s36" aria-label="Cake"></md-icon> 
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-pink" ng-click="dueRentClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">Complaint</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:rgb(233, 12, 148)">
+                            {{0}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/issue-reopened.svg" class="s36" aria-label="Cake"></md-icon> 
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
+
+        <div style="margin-top: 25px;">
+            <md-card class="card-green" md-theme="default" md-theme-watch ng-show="isAvailableBed">
+                <md-card-title class="dashbord-header card-title-green"> 
+                    <md-card-title-text>
+                        <span class="md-subhead">Available Bed</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="item in bedAvailable">
+                            <div class="md-list-item-text">
+                                <h4>Room No : {{item.RoomNo}}</h4>
+                                <h4>{{SharingType}}</h4>
+                                <h4>Available Bed : {{item.Count}}</h4>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                        <p ng-hide="bedAvailable.length" style="text-align: center;">No data available</p>
+                    </md-list>
+                </md-content>
+            </md-card>
+
+            <md-card class="card-red" md-theme="default" md-theme-watch ng-show="isDueRent">
+                <md-card-title class="dashbord-header card-title-red">
+                    <md-card-title-text>
+                        <span class="md-subhead">Due Rent</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="item in dueRent">
+                            <div class="md-list-item-text" layout="column">
+                                <h4>Room No : {{item.RoomNo}}</h4>
+                                <h4>Name : {{item.TenantName}}</h4>
+                                <h4>Rent (Rs) : {{item.RentAmount}}</h4>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                        <p ng-hide="dueRent.length" style="text-align: center;">No data available</p>
+                    </md-list>
+                </md-content>
+            </md-card>
+
+            <md-card class="card-blue" md-theme="default" md-theme-watch ng-show="isOnNotice">
+                <md-card-title class="dashbord-header card-title-blue">
+                    <md-card-title-text>
+                        <span class="md-subhead">On Notice</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="item in notice">
+                            <div class="md-list-item-text" layout="column">
+                                <h4>Room No : {{item.RoomNo}}</h4>
+                                <h4>Name : {{item.TenantName}}</h4>
+                                <h4>End Date {{item.CheckOutDate | date : "dd-MMM-yy"}}</h4>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                        <p ng-hide="notice.length" style="text-align: center;">No data available</p>
+                    </md-list>
+                </md-content>
+            </md-card>
+        </div>
     </div>
 
-    <div style="margin-top: 25px;">
-        <md-card md-theme="default" md-theme-watch ng-show="isAvailableBed">
-            <md-card-title class="dashbord-header"> 
-                <md-card-title-text>
-                    <span class="md-subhead">Available Bed</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-content>
-                <md-list>
-                    <md-list-item class="md-3-line" ng-repeat="item in bedAvailable">
-                        <div class="md-list-item-text">
-                            <h4>Room No : {{item.RoomNo}}</h4>
-                            <h4>{{SharingType}}</h4>
-                            <h4>Available Bed : {{item.Count}}</h4>
-                        </div>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-list-item>
-                    <p ng-hide="bedAvailable.length" style="text-align: center;">No data available</p>
-                </md-list>
-            </md-content>
+    <div ng-show="vDashboardPTenant">
+        <md-card class="card-green"  md-theme="default"  md-theme-watch>
+            <span class="md-title" style="margin-left: 10px;margin-top: 10px;">Your Info</span>
+            <md-card-header>
+              <md-card-avatar>
+                <img ng-src="./img/icons/account_circle.svg" class="md-avatar" alt="user-icon" />
+              </md-card-avatar>
+              <md-card-header-text style="min-height:130px; margin-left:10px">
+                <span class="md-title">{{tenant.FullName}}</span>
+                <span class="md-subhead text-color-faint">Tenant No : {{tenant.TenantNo}}</span>
+                <span class="md-subhead text-color-faint">Room No : {{tenant.Room.RoomNo}}</span>
+                <span class="md-subhead text-color-faint" ng-show="tenant.CheckInDate">Check In : {{tenant.CheckInDate | date : "dd-MMM-yyyy"}}</span>
+                <span class="md-subhead text-color-faint" ng-show="tenant.CheckOutDate">Check Out : {{tenant.CheckOutDate | date : "dd-MMM-yyyy"}}</span>
+                <span class="md-subhead" style="color:green" ng-show="tenant.IsActive">Activated</span>
+                <span class="md-subhead" style="color:red"   ng-hide="tenant.IsActive">Deactivated</span>
+              </md-card-header-text>
+            </md-card-header>
         </md-card>
 
-        <md-card md-theme="default" md-theme-watch ng-show="isDueRent">
-            <md-card-title class="dashbord-header">
-                <md-card-title-text>
-                    <span class="md-subhead">Due Rent</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-content>
-                <md-list>
-                    <md-list-item class="md-3-line" ng-repeat="item in dueRent">
-                        <div class="md-list-item-text" layout="column">
-                            <h4>Room No : {{item.RoomNo}}</h4>
-                            <h4>Name : {{item.TenantName}}</h4>
-                            <h4>Rent (Rs) : {{item.RentAmount}}</h4>
-                        </div>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-list-item>
-                    <p ng-hide="dueRent.length" style="text-align: center;">No data available</p>
-                </md-list>
-            </md-content>
-        </md-card>
-
-        <md-card md-theme="default" md-theme-watch ng-show="isOnNotice">
-            <md-card-title class="dashbord-header">
-                <md-card-title-text>
-                    <span class="md-subhead">On Notice</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-content>
-                <md-list>
-                    <md-list-item class="md-3-line" ng-repeat="item in notice">
-                        <div class="md-list-item-text" layout="column">
-                            <h4>Room No : {{item.RoomNo}}</h4>
-                            <h4>Name : {{item.TenantName}}</h4>
-                            <h4>End Date {{item.CheckOutDate | date : "dd-MMM-yy"}}</h4>
-                        </div>
-                        <md-divider ng-if="!$last"></md-divider>
-                    </md-list-item>
-                    <p ng-hide="notice.length" style="text-align: center;">No data available</p>
-                </md-list>
-            </md-content>
+        <md-card style="margin-top:20px" class="card-pink" md-theme="default" md-theme-watch>
+            <span class="md-title" style="margin-left: 10px;margin-top: 10px;">PG Info</span>
+            <md-card-header>
+              <md-card-avatar>
+                <img ng-src="./img/icons/building-solid.svg" class="md-avatar" alt="room-icon" />
+              </md-card-avatar>
+              <md-card-header-text style="min-height:100px;margin-left: 10px;">
+                <span class="md-title">{{pg.Name}}</span>
+                <span class="md-subhead text-color-faint"> {{pg.Address}}</span>
+                <span class="md-subhead text-color-faint"> {{pg.City}}</span>
+              </md-card-header-text>
+            </md-card-header>
         </md-card>
     </div>
-
 </div>

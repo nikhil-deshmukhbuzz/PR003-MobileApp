@@ -1,5 +1,5 @@
 <div ng-controller="rentCTRL" layout="column" ng-cloak>
-    <md-card md-theme="default" md-theme-watch>
+    <md-card class="card-form" md-theme="default" md-theme-watch>
         <md-card-title>
             <md-card-title-text>
                     <span class="md-headline">{{headline}}</span>
@@ -47,9 +47,10 @@
 
                 <md-input-container class="md-block">
                     <label>Rent (Rs)</label>
-                    <input required name="rentAmount" ng-model="oRent.RentAmount" ng-disabled="isPaid">
+                    <input type="number" required name="rentAmount" ng-model="oRent.RentAmount" ng-disabled="isPaid" maxlength="6">
                     <div ng-messages="form.rentAmount.$error">
                         <div ng-message="required">Rent is required.</div>
+                        <div ng-message="maxlength">Rent should have at most 6 digit.</div>
                     </div>
                 </md-input-container>
 

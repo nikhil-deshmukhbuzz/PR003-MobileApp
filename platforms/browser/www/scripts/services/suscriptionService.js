@@ -16,4 +16,14 @@ serv.service('suscriptionService', function ($http, config) {
 
     };
 
+    this.addTransaction = function (request) {
+        return $http.post(config.baseUrl + '/Suscription/AddTransaction', request);
+
+    };
+
+    this.transactionErrorLog = function (request) {
+        return $http.post(config.baseUrl + '/Suscription/TransactionErrorLog', request);
+
+    };
+
 });

@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var deviceId = null;
 var app = {
     // Application Constructor
     initialize: function() {
@@ -28,18 +29,19 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
+        deviceId = device.uuid;
         this.receivedEvent('deviceready');
     },
 
 
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+        // var parentElement = document.getElementById(id);
+        // var listeningElement = parentElement.querySelector('.listening');
+        // var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+        // listeningElement.setAttribute('style', 'display:none;');
+        // receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
     }
@@ -52,5 +54,26 @@ var onResume = function(event) {
     // Pass on the event to RazorpayCheckout
     RazorpayCheckout.onResume(event);
   };
+
+ 
+       function GetMessageFromGCM() {
+        
+            alert("onNotificationOpen");
+        
+             try {
+        
+                window.FirebasePlugin.onNotificationOpen(function (data) {
+        
+                 alert(JSON.stringify(data));
+        
+                });
+        
+            } catch (e) {
+        
+                alert(e);
+        
+            }
+        
+        }
 
 app.initialize();

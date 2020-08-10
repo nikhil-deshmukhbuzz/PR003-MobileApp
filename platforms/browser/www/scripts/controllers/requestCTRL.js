@@ -2,6 +2,8 @@ var app = angular.module('request-module', ['ngMaterial', 'ngRoute', 'ngMessages
 
 app.controller('requestCTRL', function ($scope,$rootScope, $location,coreService,requestService) {
 
+    $rootScope.toolbar_name = 'Request';
+    
     $scope.initialize = function(){
 
         coreService.showInd();

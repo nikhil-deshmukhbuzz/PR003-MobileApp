@@ -1,9 +1,9 @@
 ﻿var serv = angular.module('core-service', []);
 serv.constant('config', {
-    baseUrl: 'http://localhost:64432/api/Mobile',
-   // payUrl: 'http://localhost:58803/api'
-   // baseUrl: 'https://j870kj1av2.execute-api.ap-south-1.amazonaws.com/Prod/api/Mobile',
-     payUrl: 'https://b131stolj4.execute-api.ap-south-1.amazonaws.com/Prod/api'
+    //baseUrl: 'http://localhost:64432/api/Mobile',
+    //payUrl: 'http://localhost:58803/api'
+    baseUrl: 'https://eymh4odut4.execute-api.ap-south-1.amazonaws.com/Prod/api/Mobile',
+     payUrl: 'https://pess1g5cy5.execute-api.ap-south-1.amazonaws.com/Prod/api'
 });
 serv.service('coreService', function ($http, $rootScope, $timeout,$mdToast) {
 
@@ -59,6 +59,14 @@ serv.service('coreService', function ($http, $rootScope, $timeout,$mdToast) {
         $timeout(function () {
             $rootScope.error = false;
         }, 5000);
+    };
+
+    this.setHostURL= function (data) {
+        localStorage.HostURL = angular.toJson(data);
+    };
+    
+    this.getHostURL = function () {
+        return angular.fromJson(localStorage.HostURL);
     };
 
     this.setPaymentStatusPaid= function (data) {
@@ -126,6 +134,22 @@ serv.service('coreService', function ($http, $rootScope, $timeout,$mdToast) {
         return angular.fromJson(localStorage.CoOrdinatorID);
     };
 
+    this.setTenant = function (data) {
+        localStorage.Tenant = angular.toJson(data);
+    };
+
+    this.getTenant = function () {
+        return angular.fromJson(localStorage.Tenant);
+    };
+
+    this.setTenants = function (data) {
+        localStorage.Tenants = angular.toJson(data);
+    };
+
+    this.getTenants = function () {
+        return angular.fromJson(localStorage.Tenants);
+    };
+
 
     this.validateUser = function (parentMenu, subMenu) {
         var menuList = this.getMenu();
@@ -175,6 +199,7 @@ serv.directive('onlyDigits', function () {
         }
     };
 });
+
 
 serv.filter('INR', function () {
     return function (input) {

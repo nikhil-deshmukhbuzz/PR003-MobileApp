@@ -1,9 +1,15 @@
 ﻿var app = angular.module('MobileApp', ['ngMaterial', 'ngMessages','ngRoute',
-'home-module','core-service','request-module','roomsharing-module','room-module','tenant-module','noticeperiod-module','rent-module','pay-module','success-module',
-'login-service','registration-service','request-service','roomsharing-service','room-service','tenant-service','noticeperiod-service','rent-service','dashboard-service','pay-service'
+'home-module','core-service','request-module','roomsharing-module','room-module','tenant-module','np-module','rent-module','pay-module','success-module','receipt-module','rentPay-module',
+'login-service','registration-service','request-service','roomsharing-service','room-service','tenant-service','noticeperiod-service','rent-service','dashboard-service','pay-service','suscription-service'
 ]);
 
-app.config(function($routeProvider) {
+app.config(function($routeProvider,$mdThemingProvider) {
+
+    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+    $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+    $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+
     $routeProvider
     .when("/home", { templateUrl : "view/home.html" })
     .when("/request", { templateUrl : "view/request.html" })
@@ -14,57 +20,64 @@ app.config(function($routeProvider) {
     .when("/room/:id", { templateUrl : "view/room_add.html" })
     .when("/tenant", { templateUrl : "view/tenant.html" })
     .when("/tenant/:id", { templateUrl : "view/tenant_add.html" })
-    .when("/noticeperiod", { templateUrl : "view/noticeperiod.html" })
-    .when("/noticeperiod/:id", { templateUrl : "view/noticeperiod_add.html" })
+    .when("/noticeperiod", { templateUrl : "view/np.html" })
+    .when("/noticeperiod/:id", { templateUrl : "view/np_add.html" })
     .when("/rent", { templateUrl : "view/rent.html" })
     .when("/rent/:id", { templateUrl : "view/rent_add.html" })
     .when("/pay", { templateUrl : "view/pay.html" })
     .when("/success", { templateUrl : "view/success.html" })
-    .when("/error", { templateUrl : "view/error.html" });
+    .when("/error", { templateUrl : "view/error.html" })
+    .when("/transerror", { templateUrl : "view/trans_error.html" })
+    .when("/receipt", { templateUrl : "view/receipt.html" })
+    .when("/rent_pay", { templateUrl : "view/rent_pay.html" });
 });
 
 
-app.run(function($rootScope) {
+app.run(function($rootScope,$location,coreService) {
     $rootScope.$on("$locationChangeStart", function(event, next, current) { 
-        
-        // $rootScope.isDashboard = false;
-        // var oStr = next.split("#!");
+        if(coreService.getUser().ProfileMaster.ProfileName == 'PGOwner'){
+            var oStr = next.split("#!");
 
-        // if(oStr[1] == '/request'){
-        //     $rootScope.toolbar_name = 'Request';
-        //     $rootScope.backUrl = '/home';
-        // }
-        // else{
-        //     $rootScope.isDashboard = true;
-        //     $rootScope.toolbar_name = 'Home';
-        //     $rootScope.backUrl = '';
-        // }
-        
-
-
-        // console.log(next+' : '+current);
+            if(oStr.length > 1){
+                if(oStr[1] != '/pay'){
+                    if(!coreService.getPaymentStatusPaid())
+                        $location.path('/pay');
+                }
+            }
+        }
+   
     });
 });
 
-app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginService,$mdSidenav,$location,registrationService,rentService) {
+app.controller('indexCTRL', function ($scope,$rootScope,$timeout, coreService, loginService,$mdSidenav,$location,registrationService,rentService) {
 
-    $scope.isProcessing = false;
+    document.getElementById("app").style.visibility = "visible";
     coreService.setHostURL(window.location.href);
-
+    $scope.isProcessing = false;
+    
     var templates = function(name){
         switch(name){
             case 'login':
                 $scope.login = true;
+                $scope.otp = false;
+                $scope.registration = false;
+                $scope.home = false;
+                break;
+            case 'otp':
+                $scope.login = false;
+                $scope.otp = true;
                 $scope.registration = false;
                 $scope.home = false;
                 break;
             case 'registration':
                 $scope.login = false;
+                $scope.otp = false;
                 $scope.registration = true;
                 $scope.home = false;
                 break;
             case 'home':
                 $scope.login = false;
+                $scope.otp = false;
                 $scope.registration = false;
                 $scope.home = true;
                 break;
@@ -72,35 +85,37 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
     };
 
     $scope.showMenu = function(url){
-        
-        $rootScope.isDashboard = false;
+
         var backUrl = '';
 
         switch(url){
             case '/home':
-                $rootScope.isDashboard = true;
-                $rootScope.toolbar_name = 'Home';
-                $rootScope.backUrl = '';
+                $rootScope.toolbar_name = 'Dashboard';
                 break;
             case '/request':
                 $rootScope.toolbar_name = 'Request';
-                $rootScope.backUrl = '/home';
                 break;
             case '/room':
                 $rootScope.toolbar_name = 'Room';
-                $rootScope.backUrl = '/home';
                 break;
             case '/tenant':
                 $rootScope.toolbar_name = 'Tenant';
-                $rootScope.backUrl = '/home';
                 break;
             case '/noticeperiod':
                 $rootScope.toolbar_name = 'Notice Period';
-                $rootScope.backUrl = '/home';
                 break;
             case '/rent':
                 $rootScope.toolbar_name = 'Rent';
-                $rootScope.backUrl = '/rent';
+                break;
+
+            case '/receipt':
+                $rootScope.toolbar_name = 'Receipt';
+                break;
+            case '/pay':
+                $rootScope.toolbar_name = 'Suscription';
+                break;
+            case '/rent_pay':
+                $rootScope.toolbar_name = 'Pay Rent';
                 break;
         }
 
@@ -108,49 +123,234 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
         $location.path(url);
     };
 
-    $scope.objUser = {};
-    templates('login');
-    $scope.doLogin = function () {
 
-        if(!$scope.isProcessing){
+
+    $scope.objUser = {};
+    $scope.objUser.MobileNo = '';
+    $scope.objUser.OTP = '';
+
+
+    $scope.initialize = function() {
+      
+       var mobileNo = coreService.getMobileNo();
+       var pgId = coreService.getPGID();
+      
+
+       if (mobileNo == undefined || mobileNo == null ){
+        templates('login');
+       }
+       else{
+
+        $scope.objUser.MobileNo = mobileNo;
+        $scope.objUser.PGID = pgId;
+        
+        
+        $scope.doLogin2();
+       }
+    }
+
+
+
+    $scope.doLogin = function(){
+        if($scope.objUser.MobileNo == '' || $scope.objUser.MobileNo == undefined)
+            coreService.showToast('Please enter the Mobile No');
+        else if(!$scope.isProcessing){
             $scope.isProcessing = true;
-            loginService.validateUser($scope.objUser)
+            loginService.userExist($scope.objUser)
             .then(function (response) {
                 $scope.isProcessing = false;
-                if(response.data != undefined || response.data != null)
-                {
-                    if(response.data.Status == 'Success' ){
-                        var result = response.data;
-                        /*menu*/
-                        $scope.menu = result.ListOfMenuMaster;
+                if(response.data){
+                    templates('otp');
+                }
+                else{
+                    coreService.showToast(coreService.message.userNotExists);
+                }
+        }, function (err) {
+            $scope.isProcessing = false;
+            coreService.showToast(coreService.message.error);
+        });
+        }
+    }
 
-                        coreService.setPGID(result.User.PGID);
-
-                        if(result.User.ProfileMaster.ProfileName == 'PGOwner'){
+    $scope.doLogin2 = function(){
+        $scope.isProcessing = true;
+        loginService.validateUser2($scope.objUser)
+        .then(function (response) {
+            $scope.isProcessing = false;
+            if(response.data != undefined || response.data != null)
+            {
+                if(response.data.Status == 'success' || response.data.Status == 'expire'){
+                    var result = response.data;
+                    $scope.updatePushNotifyToken(result.User);
+                    $rootScope.toolbar_name = 'Dashboard';
+                    if(result.User.ProfileMaster.ProfileName == 'PGOwner')
+                    {
+                        $scope.sidenav_username = result.User.PG.Name + ' (' + result.User.PG.PGNo + ')';
+                        if(result.Status == 'expire')
+                        {
+                            $rootScope.toolbar_name = 'Suscription';
+                            coreService.setPaymentStatusPaid(false);
+                        }
+                        else
+                        {
+                            coreService.setPaymentStatusPaid(true);
                             calculateRentForPG(result.User.PGID);
                         }
-
-                        if($mdSidenav('left').isOpen())
-                            $scope.toggleLeft();
-
-                        templates('home');
-                        $scope.showMenu('/home');
+                    }
+                    else if(result.User.ProfileMaster.ProfileName == 'Tenant')
+                    {
+                        $scope.sidenav_username = result.User.Name;
+                        coreService.setTenants(result.Tenants);
+                        coreService.setTenant(result.Tenants[0]);
                     }
                     else{
-                        coreService.showToast(response.data.Status);
+                        $scope.sidenav_username = 'Administrator';
                     }
+
+                    /*menu*/
+                    $scope.menu = result.ListOfMenuMaster;
+
+                    coreService.setUser(result.User);
+                    coreService.setMobileNo($scope.objUser.MobileNo);
+                    coreService.setPGID(result.User.PGID);
+                    coreService.setPG(result.User.PG);
+
+                    if(result.User.ProfileMaster.ProfileName == 'PGOwner'){
+                        calculateRentForPG(result.User.PGID);
+                    }
+
+                    templates('home');
+
+                    if($mdSidenav('left').isOpen())
+                        $scope.toggleLeft();
+
+                    $location.path('/home');
                 }
-                else
-                {
-                
-                    coreService.showToast(coreService.message.wrong);
+                else if(response.data.Status == 'user_not_exists'){
+                    $scope.objUser.MobileNo = null;
+                    $scope.objUser.PGID = null;
+                    templates('login');
                 }
-            }, function (err) {
-                $scope.isProcessing = false;
-                coreService.showToast(coreService.message.error);
-            });
+                else{
+                    coreService.showToast(coreService.message.error);
+                }
+            }
+            else
+            {
+                coreService.showToast(coreService.message.wrong);
+            }
+        }, function (err) {
+            $scope.isProcessing = false;
+            coreService.showToast(coreService.message.error);
+        });
+    }
+
+    $scope.doVerify = function () {
+        if($scope.objUser.OTP == '' || $scope.objUser.OTP == undefined)
+            coreService.showToast('Please enter the OTP');
+        else if(!$scope.isProcessing){
+            $scope.isProcessing = true;
+                loginService.validateUser($scope.objUser)
+                .then(function (response) {
+                    $rootScope.toolbar_name = 'Dashboard';
+                    $scope.isProcessing = false;
+                    if(response.data != undefined || response.data != null)
+                    {
+                        if(response.data.Status == 'success' || response.data.Status == 'expire'){
+                            var result = response.data;
+                            $scope.updatePushNotifyToken(result.User);
+                            if(result.User.ProfileMaster.ProfileName == 'PGOwner')
+                            {
+                                $scope.sidenav_username = result.User.PG.Name + ' (' + result.User.PG.PGNo + ')';
+
+                                if(result.Status == 'expire')
+                                {
+                                    $rootScope.toolbar_name = 'Suscription';
+                                    coreService.setPaymentStatusPaid(false);
+                                }
+                                else
+                                {
+                                    coreService.setPaymentStatusPaid(true);
+                                    calculateRentForPG(result.User.PGID);
+                                }
+                            }
+                            else if(result.User.ProfileMaster.ProfileName == 'Tenant')
+                            {
+                                $scope.sidenav_username = result.User.Name;
+                                coreService.setTenants(result.Tenants);
+                                coreService.setTenant(result.Tenants[0]);
+                            }
+                            else{
+                                $scope.sidenav_username = 'Administrator';
+                            }
+             
+                            /*menu*/
+                            $scope.menu = result.ListOfMenuMaster;
+
+                            coreService.setUser(result.User);
+                            coreService.setMobileNo($scope.objUser.MobileNo);
+                            coreService.setPGID(result.User.PGID);
+                            coreService.setPG(result.User.PG);
+
+                            templates('home');
+
+                            if($mdSidenav('left').isOpen())
+                                $scope.toggleLeft();
+
+                            $location.path('/home');
+                        }
+                        else{
+                            coreService.showToast(response.data.Status);
+                        }
+                    }
+                    else
+                    {
+                        coreService.showToast(coreService.message.wrong);
+                    }
+                }, function (err) {
+                    $scope.isProcessing = false;
+                    coreService.showToast(coreService.message.error);
+                });
+            }
+            else{
+                coreService.showToast(coreService.message.userNotExists);
+            }
         }
+
+    $scope.updatePushNotifyToken = function(user){
+        $scope.user = user;
+        $timeout($scope.setDeviceId, 10000);
+        try {
+            if (window.FirebasePlugin == null) {
+                //coreService.showToast('FCM is null');
+                return;
+            }
+    
+            /* window.FirebasePlugin.getToken(function (token) {
+                    user.PushNotificationToken = token;
+                    coreService.showToast(JSON.stringify(user));
+                    loginService.updatePushNotification(user)
+                    .then(function (response) {
+                    // coreService.showToast('success');
+                    }, function (err) {
+                    // coreService.showToast(error.data);
+                    });
+                });*/
+            }
+        catch (e) { }
     };
+
+    $scope.setDeviceId = function(){
+        if(deviceId != null){
+            $scope.user.DeviceID = deviceId;
+            loginService.updateDeviceID($scope.user)
+            .then(function (response) {
+               // coreService.showToast('success');
+            }, function (err) {
+               // coreService.showToast(error.data);
+            });
+         }
+    }
 
     var calculateRentForPG = function(rentId){
         console.log('call calculateRentForPG');
@@ -163,10 +363,28 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
     };
     
 
+    $scope.home =function(){
+        $location.path('/home');
+    }
+
+
+    $scope.logout =function(){
+
+        if (confirm("Are you sure to logout?")) {
+            $scope.objUser.MobileNo = '';
+            $scope.objUser.OTP = '';
+            $scope.objUser.PGID = '';
+            
+            var refresh = coreService.getHostURL();
+            localStorage.clear();
+            window.location = refresh;
+          } else {
+          }
+    }
 
     $scope.back = function(){
         $rootScope.isDashboard = true;
-        $rootScope.toolbar_name = 'Home';
+        $rootScope.toolbar_name = 'Dashboard';
         $rootScope.backUrl = '/home';
         $location.path($rootScope.backUrl);
     }

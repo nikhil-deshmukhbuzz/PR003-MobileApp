@@ -1,0 +1,66 @@
+<style>
+    html[dir="rtl"] .bidi {
+        padding-right: 20px;
+        padding-left:0;
+    }
+
+    .block {
+        display: block;
+        width: 100%;           
+    }
+</style>
+<div ng-controller="rentPayCTRL" ng-init="initialize()">
+   <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+   
+   <!-- payScreen -->         
+   <div ng-show="payScreen">
+    <h4 style="margin-left:70px">Rent Summary</h4>
+   <br/>
+    <md-divider></md-divider>
+   
+    <md-card style="margin-top:20px" ng-class="{'card-red': item.PaymentStatus.Status == 'Unpaid', 'card-green': item.PaymentStatus.Status == 'Paid' }" md-theme="default" md-theme-watch ng-repeat="item in rentList">
+            <span class="md-title" style="margin-left: 100px;margin-top: 10px;">
+                    <img ng-src="./img/icons/receipt-small.svg" class="md-avatar" alt="room-icon" />
+                    {{item.InvoiceNumber}}
+            </span>
+        <md-card-header style="min-height:120px; margin-left:10px">
+            <md-card-avatar>
+            
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title space">Name          :    {{item.FullName}}</span>
+                <span class="md-title space">Room No   :    {{item.RoomNo}}</span>
+                <span class="md-title space">Period       :    {{item.Month.MonthName}}-{{item.Year}} </span>
+                <span class="md-title space">Total(Rs)    :    {{item.TotalAmount}} </span>
+            </md-card-header-text>
+        </md-card-header>
+        <md-card-actions layout="row" layout-align="center center">
+            <md-button class="md-raised md-primary" ng-click="verify(item)" ng-disabled="isProgress">PAY</md-button>
+        </md-card-actions>
+    </md-card>
+    <p ng-hide="rentList.length" style="text-align: center;">No data available</p>
+   </div>
+   <!-- End payScreen -->
+
+   <div ng-show="successScreen">
+    <md-card md-theme="default" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Successful Payment</span>
+            <span class="md-subhead" style="margin-top: 30px;">Transaction Id <b style="font-size: 15px;">{{payment_id}}</b></span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-lg card-media">
+                    <img style="height:120px" ng-src="./img/icons/bxs-badge-check.svg" class="md-avatar" alt="icon" />
+            </div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="center center">
+                <md-button flex  class="md-raised md-primary block" ng-disabled="isProgress"  ng-click="done()">Done</md-button>
+        </md-card-actions>
+      </md-card>
+   </div>
+</div>
+
+
+

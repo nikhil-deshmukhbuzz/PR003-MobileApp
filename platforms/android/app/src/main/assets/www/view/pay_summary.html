@@ -1,0 +1,24 @@
+<h4 style="margin-left:70px">Plan Summary</h4>
+<br/>
+<md-divider></md-divider>
+<br/>
+<div layout="row">
+    <h6 style="margin-left:75px">Plan</h6>
+    <h6 style="margin-left:70px">Validity</h6>
+</div>
+<md-radio-group ng-model="objSuscription" >
+<div ng-repeat='s in suscriptionList' class="row" layout-align="start center">
+    <div flex layout='row' layout-padding layout-align="start center" >
+        <md-radio-button flex
+            ng-value="s" 
+            class="md-primary" style="max-width:120px; margin-left: 70px;font-size:15px">
+            Rs {{s.Amount}}
+        </md-radio-button>
+        <div style="margin-bottom:10px;font-size:12px">
+            {{s.Name}}
+        </div>
+    </div>
+    <md-divider ng-if="!$last"></md-divider>
+</div>
+</md-radio-group>
+<md-button flex class="md-raised md-primary block" ng-disabled="objSuscription == null" ng-click="checkout()">Pay</md-button>

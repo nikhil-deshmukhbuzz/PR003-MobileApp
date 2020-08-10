@@ -2,11 +2,15 @@ var app = angular.module('pay-module', ['ngMaterial', 'ngRoute', 'ngMessages']);
 
 app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$mdSidenav,coreService,payService,suscriptionService) {
 
-
+    $rootScope.toolbar_name = 'Suscription';
+    
     if($mdSidenav('left').isOpen())
     $scope.toggleLeft();
 
     $scope.productCode = 'PR003';
+    $scope.expireOn = null;
+    $scope.payment_id = null;
+    $scope.error_reference = null;
 
     $scope.subscriptionScreen = false;
     $scope.payScreen = false;
@@ -16,13 +20,6 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
 
     var showScreen = function(scr){
         switch(scr){
-            case 'subscription':
-                $scope.subscriptionScreen = true;
-                $scope.payScreen = false;
-                $scope.successScreen = false;
-                $scope.errorScreen = false;
-                coreService.setPaymentStatusPaid(true);
-            break;
             case 'pay':
                 $scope.subscriptionScreen = false;
                 $scope.payScreen = true;
@@ -46,10 +43,10 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
         }
     }
 
-
    $scope.initialize = function(){
        $scope.pg = coreService.getPG();
-
+       $scope.TransactionSessionID = new Date().getTime();
+       
        var request = {};
        request.PGID =  coreService.getPGID();
        request.ProductCode = $scope.productCode;
@@ -62,7 +59,8 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
                 coreService.hideInd();
                if(response.data != null){
                   if(response.data.Status == 'valid' || response.data.Status == 'trial'){
-                    showScreen('subscription');
+                    $scope.expireOn = response.data.LastDateOfSuscription;
+                    showScreen('pay');
                   }
                   else{
                         coreService.showInd();
@@ -71,27 +69,30 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
                                 coreService.hideInd();
                                 if(response.data != null){
                                     if(response.data.Status == 'valid' || response.data.Status == 'trial'){
-                                        showScreen('subscription');
+                                        $scope.expireOn = response.data.LastDateOfSuscription;
                                       }
                                       else{
-                                        showScreen('pay');
+                                        $scope.expireOn = null;
                                       }
+                                      showScreen('pay');
                                 }
                                 else{
-                                    //error handling
+                                   addTransactionLog('1.3');
                                 }
                             }, function (err) {
                                 coreService.hideInd();
                                 console.log(err.data);
+                               addTransactionLog('1.2');
                             });
                   }
                }
                else{
-                //error handling
+               addTransactionLog('1.1');
                 }
             }, function (err) {
                 coreService.hideInd();
                 console.log(err.data);
+               addTransactionLog('1');
          });
    };
 
@@ -105,11 +106,12 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
             $scope.suscriptionList = response.data;
         }
         else{
-            //error handling
+           addTransactionLog('2.1');
         }
     }, function (err) {
         coreService.hideInd();
         console.log(err.data);
+       addTransactionLog('2');
     });
 };
 
@@ -138,21 +140,22 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
                             getOrder();
                         }
                         else
-                            {
-                                //error handling
-                            }    
+                        {
+                           addTransactionLog('4.3');
+                        }    
                     }
                     else{
-                        //error handling
+                       addTransactionLog('4.2');
                     }
                 }
                 else{
-                    //error handling
+                   addTransactionLog('4.1');
                 }
                 
             }, function (err) {
                 coreService.hideInd();
                 console.log(err.data);
+                addTransactionLog('4');
          });
    }
 
@@ -180,6 +183,7 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
         }, function (err) {
             coreService.hideInd();
             console.log(err.data);
+           addTransactionLog('3');
         });
    };
 
@@ -214,6 +218,8 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
     orderRequest.PaymentID = success.razorpay_payment_id;
     orderRequest.TransactionStepID = $scope.TransactionStepID;
 
+    $scope.payment_id = success.razorpay_payment_id;
+
     coreService.showInd();
     payService.pay(orderRequest)
         .then(function (response) {
@@ -221,12 +227,14 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
             var result = response.data;
           
             if (result.Status === 'SUCCESS') {
-             
+                addTransaction();
             }
             else {
+               addTransactionLog('5.1');
                 console.log(result);
             }
         }, function (err) {
+           addTransactionLog('5');
             console.log(err.data);
         });
 
@@ -234,12 +242,58 @@ app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$m
   }
   
   var cancelCallback = function(error) {
-    showScreen('error');
+    coreService.showToast('Transaction Failed');
+    addTransactionLog('6');
   }
-  
-  RazorpayCheckout.on('payment.success', successCallback)
-  RazorpayCheckout.on('payment.cancel', cancelCallback)
 
+  var addTransaction = function(){
+      var request = {};
+      request.CustomerCode = $scope.pg.PGNo;
+      request.ProductCode = $scope.productCode;
 
+    suscriptionService.addTransaction(request)
+        .then(function (response) {
+
+        }, function (err) {
+            console.log(err.data);
+           addTransactionLog('7');
+        });
+  };
+
+  $scope.done = function(){
+    $location.path('/home');
+  };
+
+  var addTransactionLog = function(errCode){
+
+        coreService.showToast(coreService.message.wrong + ' error code : ' + errCode);
+
+        var request = {};
+         request.PGID = coreService.getPGID();
+         request.TransactionSessionID = $scope.TransactionSessionID;
+         request.ErrorCode = errCode;
+
+        suscriptionService.transactionErrorLog(request)
+        .then(function (response) {
+
+        }, function (err) {
+            console.log(err.data);
+        });
+    };
+    
+    try {
+        RazorpayCheckout.on('payment.success', successCallback)
+        RazorpayCheckout.on('payment.cancel', cancelCallback)
+      }
+      catch(err) {
+        coreService.showToast('Please try again later');
+        console.log(err.message);
+      }
    
+});
+
+app.controller('transerrorCTRL', function ($scope, $location) {
+    $scope.home = function(){
+        $location.path('/home');
+      };
 });

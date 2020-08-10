@@ -3,10 +3,28 @@ var app = angular.module('home-module', ['ngMaterial', 'ngRoute', 'ngMessages'])
 app.controller('homeCTRL', function ($scope,$rootScope,$mdSidenav, $location,coreService,dashboardService) {
 
     if($mdSidenav('left').isOpen())
-    $scope.toggleLeft();
+        $scope.toggleLeft();
+
+    $scope.vDashboardPGOwner = false;
+    $scope.vDashboardPTenant = false;
+    $scope.vDashboardAdmin = false;    
 
     $scope.initialize = function(){
-        dashboardPgOwner();
+        var profile = coreService.getUser().ProfileMaster.ProfileName;
+        if(profile == 'PGOwner'){
+            $scope.vDashboardPGOwner = true;
+            dashboardPgOwner();
+        }
+            
+        else  if(profile == 'Tenant'){
+            $scope.vDashboardPTenant = true;
+            dashboardTenant();
+        }
+           
+        else{
+            $scope.vDashboardAdmin = true;
+            dashboardAdmin();  
+        }
     };
 
     var showDashboardDetails = function(ch){
@@ -51,6 +69,15 @@ app.controller('homeCTRL', function ($scope,$rootScope,$mdSidenav, $location,cor
             coreService.hideInd();
             console.log(err.data);
         });
+    };
+
+    var dashboardTenant = function(){
+       $scope.tenant = coreService.getTenant();
+       $scope.pg = coreService.getTenant().PG;
+    };
+
+    var dashboardAdmin = function(){
+        
     };
 
     $scope.availableBedClk = function(){

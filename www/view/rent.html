@@ -1,8 +1,8 @@
 <div ng-controller="rentCTRL" ng-init="initialize()">
     <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
 
-    <md-button class="md-icon-button" layout-align="right" ng-click="add()" ng-show="false" aria-label="Settings">
-        <md-icon  md-svg-icon="img/icons/add_circle_outline-24.svg"></md-icon>
+    <md-button ng-show="false"  ng-click="add()" class="md-fab md-mini plus-button" aria-label="Add">
+        <md-icon md-svg-src="./img/icons/add.svg"></md-icon>
     </md-button>
 
     <md-card md-theme="default" md-theme-watch>
@@ -45,14 +45,16 @@
     <md-content>
         <md-list>
             <md-list-item class="md-3-line" ng-repeat="item in listOfRent">
+                    <img ng-src="./img/icons/money-bill-wave.svg" class="md-avatar" alt="icon" />
                 <div class="md-list-item-text">
-                    <h3>Room No : {{item.FullName}}</h3>    
-                    <h4>Rent : {{item.RentAmount}}</h4>
+
+                    <h4>{{item.RoomNo}}. {{item.FullName}}</h4>
+                    <h4>Rs {{item.RentAmount}}</h4>
                     <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'red'}" md-colors-watch="false" ng-show="item.PaymentStatus.Status == 'Unpaid'">Unpaid</md-button>
                     <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'green'}" md-colors-watch="false" ng-show="item.PaymentStatus.Status == 'Paid'">Paid</md-button>
                 </div>
                 <md-button class="md-secondary" ng-disabled="isProgress" ng-click="edit(item.RentID)">
-                        <md-icon  md-svg-icon="img/icons/create-24.svg"></md-icon>
+                        <md-icon  md-svg-icon="./img/icons/create-24.svg"></md-icon>
                 </md-button>
                 <md-divider ng-if="!$last"></md-divider>
             </md-list-item>

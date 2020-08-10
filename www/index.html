@@ -13,8 +13,13 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
    
+    
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
     <!-- Angular Material style sheet -->
-    <link href="scripts/angular/angular-material.min.css" rel="stylesheet" />
+    <!-- <link href="scripts/angular/angular-material.min.css" rel="stylesheet" /> -->
 
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
@@ -29,6 +34,8 @@
         <!--=======================================================================================-->
         <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
         <!--===============================================================================================-->
+        <link href="scripts/angular/angular-material.min.css" rel="stylesheet" />
+
         <link rel="stylesheet" type="text/css" href="css/util.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <!--===============================================================================================-->
@@ -47,6 +54,7 @@
     <!-- Angular Material Library -->
     <script src="scripts/angular/angular-material.min.js"></script>
 
+    <link href="content/bootstrap.css" rel="stylesheet" />
 
     <title>MobileApp</title>
 </head>
@@ -58,11 +66,8 @@
 
     <md-toolbar class="md-hue-2" ng-show="home" md-scroll-shrink="true" style="position: fixed;">
         <div class="md-toolbar-tools">
-            <md-button ng-if="isDashboard" class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
+            <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
                 <md-icon  md-svg-icon="img/icons/menu.svg"></md-icon>
-            </md-button>
-            <md-button ng-if="!isDashboard" class="md-icon-button" aria-label="Settings" ng-click="back()">
-                <md-icon  md-svg-icon="img/icons/arrow_back-24.svg"></md-icon>
             </md-button>
             
             <h2 flex md-truncate>{{toolbar_name}}</h2>
@@ -72,16 +77,30 @@
     <section layout="row" flex ng-show="home" ng-click="closeSideNav()">
         
         <md-sidenav class="md-sidenav-left" md-component-id="left"
-                    md-disable-backdrop="" md-whiteframe="4">
+                    md-disable-backdrop="" md-whiteframe="4" style="position: fixed;">
     
             <md-toolbar class="md-theme-indigo">
-            <h1 class="md-toolbar-tools">Hello, Nikhil</h1>
+                <h1 class="md-toolbar-tools" style="margin-top:10px">
+                    <img style="height:70px" ng-src="img/icons/bx-user.svg" class="md-avatar" alt="room-icon" />
+                    {{sidenav_username}}
+                </h1>
             </md-toolbar>
     
             <md-content layout-margin="">
-            <div ng-click="showMenu(item.Url)" ng-repeat="item in menu">
+            <div  style="margin-bottom: 10px;" ng-click="showMenu('/home')">
+                <md-icon md-svg-src="img/icons/dashboard-outlined.svg" aria-label="logout" style="margin-right: 10px;margin-left: 20px;"></md-icon>
+                        Dashboard
+            </div>
+            <hr/>
+            <div ng-click="showMenu(item.Url)" ng-repeat="item in menu" style="margin-bottom: 10px;">
+                <md-icon md-svg-src="img/icons/{{item.ImageUrl}}" aria-label="menu-icon " style="margin-right: 10px;margin-left: 20px;"></md-icon>
                 {{item.MenuName}}
             </div>
+            <hr/>
+            <div  style="margin-bottom: 10px;" ng-click="logout()">
+                <md-icon md-svg-src="img/icons/power-off.svg" aria-label="logout" style="margin-right: 10px;margin-left: 20px;"></md-icon>
+                    Logout
+             </div>
             
             </md-content>
         </md-sidenav>
@@ -94,10 +113,6 @@
         
     </section>
 
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
-    <script type="text/javascript" src="scripts/index.js"></script>
-    <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
 
     <script src="scripts/services/coreService.js"></script>
     <script src="scripts/services/registrationService.js"></script>
@@ -117,10 +132,13 @@
     <script src="scripts/controllers/roomsharingCTRL.js"></script>
     <script src="scripts/controllers/roomCTRL.js"></script>
     <script src="scripts/controllers/tenantCTRL.js"></script>
-    <script src="scripts/controllers/noticeperiodCTRL.js"></script>
+    <!-- <script src="scripts/controllers/noticeperiodCTRL.js"></script> -->
+    <script src="scripts/controllers/npCTRL.js"></script>
     <script src="scripts/controllers/rentCTRL.js"></script>
     <script src="scripts/controllers/payCTRL.js"></script>
     <script src="scripts/controllers/successCTRL.js"></script>
+    <script src="scripts/controllers/receiptCTRL.js"></script>
+    <script src="scripts/controllers/rentPayCTRL.js"></script>
     <script src="scripts/controllers/indexCTRL.js"></script>
 </body>
 </html>

@@ -1,9 +1,15 @@
 ﻿var app = angular.module('MobileApp', ['ngMaterial', 'ngMessages','ngRoute',
-'home-module','core-service','request-module','roomsharing-module','room-module','tenant-module','noticeperiod-module','rent-module','pay-module','success-module',
+'home-module','core-service','request-module','roomsharing-module','room-module','tenant-module','np-module','rent-module','pay-module','success-module','receipt-module','rentPay-module',
 'login-service','registration-service','request-service','roomsharing-service','room-service','tenant-service','noticeperiod-service','rent-service','dashboard-service','pay-service','suscription-service'
 ]);
 
-app.config(function($routeProvider) {
+app.config(function($routeProvider,$mdThemingProvider) {
+
+    $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+    $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+    $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+    $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+
     $routeProvider
     .when("/home", { templateUrl : "view/home.html" })
     .when("/request", { templateUrl : "view/request.html" })
@@ -14,35 +20,44 @@ app.config(function($routeProvider) {
     .when("/room/:id", { templateUrl : "view/room_add.html" })
     .when("/tenant", { templateUrl : "view/tenant.html" })
     .when("/tenant/:id", { templateUrl : "view/tenant_add.html" })
-    .when("/noticeperiod", { templateUrl : "view/noticeperiod.html" })
-    .when("/noticeperiod/:id", { templateUrl : "view/noticeperiod_add.html" })
+    .when("/noticeperiod", { templateUrl : "view/np.html" })
+    .when("/noticeperiod/:id", { templateUrl : "view/np_add.html" })
     .when("/rent", { templateUrl : "view/rent.html" })
     .when("/rent/:id", { templateUrl : "view/rent_add.html" })
     .when("/pay", { templateUrl : "view/pay.html" })
     .when("/success", { templateUrl : "view/success.html" })
-    .when("/error", { templateUrl : "view/error.html" });
+    .when("/error", { templateUrl : "view/error.html" })
+    .when("/transerror", { templateUrl : "view/trans_error.html" })
+    .when("/receipt", { templateUrl : "view/receipt.html" })
+    .when("/rent_pay", { templateUrl : "view/rent_pay.html" });
 });
 
 
 app.run(function($rootScope,$location,coreService) {
     $rootScope.$on("$locationChangeStart", function(event, next, current) { 
-        
-        var oStr = next.split("#!");
+        if(coreService.getUser().ProfileMaster.ProfileName == 'PGOwner'){
+            var oStr = next.split("#!");
 
-        if(oStr.length > 1){
-            if(oStr[1] != '/pay'){
-                if(!coreService.getPaymentStatusPaid())
-                    $location.path('/pay');
+            if(oStr.length > 1){
+                if(oStr[1] != '/pay'){
+                    if(!coreService.getPaymentStatusPaid())
+                        $location.path('/pay');
+                }
             }
         }
    
     });
 });
 
-app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginService,$mdSidenav,$location,registrationService,rentService) {
+app.controller('indexCTRL', function ($scope,$rootScope,$timeout,$interval, coreService, loginService,$mdSidenav,$location,registrationService,rentService) {
 
     document.getElementById("app").style.visibility = "visible";
+    coreService.setHostURL(window.location.href);
     $scope.isProcessing = false;
+
+    $scope.objUser = {};
+    $scope.objUser.MobileNo = '';
+    $scope.objUser.OTP = '';
     
     var templates = function(name){
         switch(name){
@@ -58,12 +73,6 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
                 $scope.registration = false;
                 $scope.home = false;
                 break;
-            case 'registration':
-                $scope.login = false;
-                $scope.otp = false;
-                $scope.registration = true;
-                $scope.home = false;
-                break;
             case 'home':
                 $scope.login = false;
                 $scope.otp = false;
@@ -74,61 +83,29 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
     };
 
     $scope.showMenu = function(url){
-        
-        $rootScope.isDashboard = false;
-        var backUrl = '';
-
-        switch(url){
-            case '/home':
-                $rootScope.isDashboard = true;
-                $rootScope.toolbar_name = 'Home';
-                $rootScope.backUrl = '';
-                break;
-            case '/request':
-                $rootScope.toolbar_name = 'Request';
-                $rootScope.backUrl = '/home';
-                break;
-            case '/room':
-                $rootScope.toolbar_name = 'Room';
-                $rootScope.backUrl = '/home';
-                break;
-            case '/tenant':
-                $rootScope.toolbar_name = 'Tenant';
-                $rootScope.backUrl = '/home';
-                break;
-            case '/noticeperiod':
-                $rootScope.toolbar_name = 'Notice Period';
-                $rootScope.backUrl = '/home';
-                break;
-            case '/rent':
-                $rootScope.toolbar_name = 'Rent';
-                $rootScope.backUrl = '/rent';
-                break;
-        }
-
         $scope.toggleLeft();
         $location.path(url);
     };
 
-    $scope.objUser = {};
-
-
     $scope.initialize = function() {
-       var pgId = coreService.getPGID();
        var mobileNo = coreService.getMobileNo();
+       var pgId = coreService.getPGID();
 
-       if(pgId == undefined || pgId == null || mobileNo == undefined || mobileNo == null ){
-        templates('login');
+       if (mobileNo == undefined || mobileNo == null ){
+            templates('login');
        }
        else{
-        $scope.objUser.MobileNo = mobileNo;
-        $scope.objUser.PGID = pgId;
-        $scope.doLogin2();
+            $scope.objUser.MobileNo = mobileNo;
+            $scope.objUser.PGID = pgId;
+            $scope.doLogin2();
        }
-    }
+    };
 
     $scope.doLogin = function(){
-        if(!$scope.isProcessing){
+        if($scope.objUser.MobileNo == '' || $scope.objUser.MobileNo == undefined)
+            coreService.showToast('Please enter the Mobile No');
+        else if(!$scope.isProcessing)
+        {
             $scope.isProcessing = true;
             loginService.userExist($scope.objUser)
             .then(function (response) {
@@ -139,53 +116,19 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
                 else{
                     coreService.showToast(coreService.message.userNotExists);
                 }
-        }, function (err) {
-            $scope.isProcessing = false;
-            coreService.showToast(coreService.message.error);
-        });
+            }, function (err) {
+                $scope.isProcessing = false;
+                coreService.showToast(coreService.message.error);
+            });
         }
-    }
+    };
 
     $scope.doLogin2 = function(){
         $scope.isProcessing = true;
         loginService.validateUser2($scope.objUser)
         .then(function (response) {
             $scope.isProcessing = false;
-            if(response.data != undefined || response.data != null)
-            {
-                if(response.data.Status == 'success' || response.data.Status == 'expire'){
-                  
-                    if(response.data.Status == 'expire')
-                       coreService.setPaymentStatusPaid(false);
-                    else
-                        coreService.setPaymentStatusPaid(true);
-
-                    var result = response.data;
-                    /*menu*/
-                    $scope.menu = result.ListOfMenuMaster;
-
-                    coreService.setMobileNo($scope.objUser.MobileNo);
-                    coreService.setPGID(result.User.PGID);
-                    coreService.setPG(result.User.PG);
-
-                    if(result.User.ProfileMaster.ProfileName == 'PGOwner'){
-                        calculateRentForPG(result.User.PGID);
-                    }
-
-                    if($mdSidenav('left').isOpen())
-                        $scope.toggleLeft();
-
-                    templates('home');
-                    $scope.showMenu('/home');
-                }
-                else{
-                    coreService.showToast(response.data.Status);
-                }
-            }
-            else
-            {
-                coreService.showToast(coreService.message.wrong);
-            }
+            $scope.userLoginInSuccess(response.data);
         }, function (err) {
             $scope.isProcessing = false;
             coreService.showToast(coreService.message.error);
@@ -193,76 +136,140 @@ app.controller('indexCTRL', function ($scope,$rootScope, coreService, loginServi
     }
 
     $scope.doVerify = function () {
-
-        if(!$scope.isProcessing){
+        if($scope.objUser.OTP == '' || $scope.objUser.OTP == undefined)
+            coreService.showToast('Please enter the OTP');
+        else if(!$scope.isProcessing)
+        {
             $scope.isProcessing = true;
-                loginService.validateUser($scope.objUser)
-                .then(function (response) {
-                    $scope.isProcessing = false;
-                    if(response.data != undefined || response.data != null)
+            loginService.validateUser($scope.objUser)
+            .then(function (response) {
+                $scope.isProcessing = false;
+                $scope.userLoginInSuccess(response.data);
+            }, function (err) {
+                $scope.isProcessing = false;
+                coreService.showToast(coreService.message.error);
+            });
+            }
+        else{
+            coreService.showToast(coreService.message.userNotExists);
+        }
+    };
+
+    $scope.userLoginInSuccess = function(result){
+        if(result != undefined || result != null)
+        {
+            if(result.Status == 'success' || result.Status == 'expire'){
+                
+                $scope.updatePushNotifyToken(result.User);
+                $rootScope.toolbar_name = 'Dashboard';
+                if(result.User.ProfileMaster.ProfileName == 'PGOwner')
+                {
+                    $scope.sidenav_username = result.User.PG.Name + ' (' + result.User.PG.PGNo + ')';
+                    if(result.Status == 'expire')
                     {
-                        if(response.data.Status == 'success' || response.data.Status == 'expire'){
-                          
-                            if(response.data.Status == 'expire')
-                               coreService.setPaymentStatusPaid(false);
-                            else
-                                coreService.setPaymentStatusPaid(true);
-
-                            var result = response.data;
-                            /*menu*/
-                            $scope.menu = result.ListOfMenuMaster;
-
-                            coreService.setMobileNo($scope.objUser.MobileNo);
-                            coreService.setPGID(result.User.PGID);
-                            coreService.setPG(result.User.PG);
-
-                            if(result.User.ProfileMaster.ProfileName == 'PGOwner'){
-                                calculateRentForPG(result.User.PGID);
-                            }
-
-                            if($mdSidenav('left').isOpen())
-                                $scope.toggleLeft();
-
-                            templates('home');
-                            $scope.showMenu('/home');
-                        }
-                        else{
-                            coreService.showToast(response.data.Status);
-                        }
+                        $rootScope.toolbar_name = 'Suscription';
+                        coreService.setPaymentStatusPaid(false);
                     }
                     else
                     {
-                        coreService.showToast(coreService.message.wrong);
+                        coreService.setPaymentStatusPaid(true);
+                        calculateRentForPG(result.User.PGID);
                     }
-                }, function (err) {
-                    $scope.isProcessing = false;
-                    coreService.showToast(coreService.message.error);
-                });
+                }
+                else if(result.User.ProfileMaster.ProfileName == 'Tenant')
+                {
+                    $scope.sidenav_username = result.User.Name;
+                    coreService.setTenants(result.Tenants);
+                    coreService.setTenant(result.Tenants[0]);
+                }
+                else{
+                    $scope.sidenav_username = 'Administrator';
+                }
+
+                /*set master data*/
+                $scope.menu = result.ListOfMenuMaster;
+
+                coreService.setUser(result.User);
+                coreService.setMobileNo($scope.objUser.MobileNo);
+                coreService.setPGID(result.User.PGID);
+                coreService.setPG(result.User.PG);
+
+                templates('home');
+                if($mdSidenav('left').isOpen())
+                    $scope.toggleLeft();
+
+                $rootScope.toolbar_name = 'Dashboard';
+                $interval($scope.setToolbar, 1000);   
+                $location.path('/home');
+            }
+            else if(result.Status == 'user_not_exists'){
+                $scope.objUser.MobileNo = null;
+                $scope.objUser.PGID = null;
+                templates('login');
             }
             else{
-                coreService.showToast(coreService.message.userNotExists);
+                coreService.showToast(coreService.message.error);
             }
         }
+        else
+        {
+            coreService.showToast(coreService.message.wrong);
+        }
+    };    
 
+    $scope.updatePushNotifyToken = function(user){
+        $scope.user = user;
+        $timeout($scope.setDeviceId, 10000);
+        try {
+                if (window.FirebasePlugin == null)
+                    return;
+                
+                window.FirebasePlugin.getToken(function (token) {
+                user.PushNotificationToken = token;
+                loginService.updatePushNotification(user)
+                .then(function (response) { 
+                    }, function (err) { });
+                });
+            }
+        catch (e) { }
+    };
+
+    $scope.setToolbar = function(){
+        var toolbar_nm =   $rootScope.toolbar_name;
+        $rootScope.toolbar_name = toolbar_nm;
+    };
+
+    $scope.setDeviceId = function(){
+        if(deviceId != null){
+            $scope.user.DeviceID = deviceId;
+
+            loginService.updateDeviceID($scope.user)
+            .then(function (response) {
+            }, function (err) {
+            });
+         }
+    };
+
+    $scope.logout =function(){
+
+        if (confirm("Are you sure to logout?")) {
+            $scope.objUser.MobileNo = '';
+            $scope.objUser.OTP = '';
+            $scope.objUser.PGID = '';
+            
+            var refresh = coreService.getHostURL();
+            localStorage.clear();
+            window.location = refresh;
+          } else {
+          }
+    };
 
     var calculateRentForPG = function(rentId){
-        console.log('call calculateRentForPG');
         rentService.calculateForPG(rentId)
         .then(function (response) {
- 
         }, function (err) {
-            coreService.showToast(coreService.message.error);
         });
     };
-    
-
-
-    $scope.back = function(){
-        $rootScope.isDashboard = true;
-        $rootScope.toolbar_name = 'Home';
-        $rootScope.backUrl = '/home';
-        $location.path($rootScope.backUrl);
-    }
 
     $scope.register = function(){
         $scope.oRegistration = {};

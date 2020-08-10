@@ -1,0 +1,17 @@
+<md-card md-theme="default" md-theme-watch ng-controller="transerrorCTRL">
+    <md-card-title>
+        <md-card-title-text>
+        <span class="md-headline">Failure in Payment</span>
+        <span class="md-subhead" style="margin-top: 30px;">Reference Id <b style="font-size: 15px;">{{error_reference}}</b></span>
+        </md-card-title-text>
+        <md-card-title-media>
+        <div class="md-media-lg card-media">
+                <img style="height:120px" ng-src="../img/icons/cross-mark.svg" class="md-avatar" alt="icon" />
+        </div>
+        </md-card-title-media>
+    </md-card-title>
+    <md-card-actions layout="row" layout-align="center center">
+            <md-button flex  class="md-raised md-primary block"  ng-click="home()">Try Again</md-button>
+    </md-card-actions>
+</md-card>
+<script></script>

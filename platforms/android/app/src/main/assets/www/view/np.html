@@ -1,0 +1,28 @@
+<div ng-controller="npCTRL" ng-init="initialize()">
+    <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+
+    <md-button  ng-click="add()" class="md-fab md-mini plus-button" aria-label="Add">
+        <md-icon md-svg-src="./img/icons/add.svg"></md-icon>
+    </md-button>
+
+    <md-content>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="item in listOfTenant">
+                    <img ng-src="./img/icons/notice-on.svg" class="md-avatar" alt="icon" />
+                <div class="md-list-item-text">
+                    <h4>Room No : {{item.Room.RoomNo}}</h4>
+                    <h3>Name : {{item.FullName}}</h3>
+                   
+                    <p>End Date {{item.CheckOutDate | date : "dd-MMM-yy"}}</p>
+                     <p>{{item.NoOfDaysleft}} days left</p> 
+                </div>
+                <md-button class="md-secondary" ng-disabled="isProgress" ng-click="edit(item.TenantID)">
+                        <md-icon  md-svg-icon="./img/icons/create-24.svg"></md-icon>
+                </md-button>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+            <p ng-hide="listOfTenant.length" style="text-align: center;">No data available</p>
+        </md-list>
+    </md-content>
+
+</div>

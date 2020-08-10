@@ -1,17 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.maintaineasy.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    <feature name="Checkout">
+        <param name="android-package" value="com.razorpay.cordova.Main" />
     </feature>
     <feature name="CordovaPluginsCleartext">
         <param name="android-package" value="cordova.plugins.cleartext" />
     </feature>
-    <feature name="Checkout">
-        <param name="android-package" value="com.razorpay.cordova.Main" />
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FirebasePlugin">
+        <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
+        <param name="onload" value="true" />
     </feature>
     <name>app</name>
     <description>
@@ -29,5 +40,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
+    <icon src="res/logo.png" />
+    <splash src="res/logo.png" />
     <preference name="loglevel" value="DEBUG" />
 </widget>

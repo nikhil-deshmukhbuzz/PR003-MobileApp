@@ -2,7 +2,7 @@ var app = angular.module('room-module', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
 app.controller('roomCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,roomService,roomsharingService) {
 
-    
+    $rootScope.toolbar_name = 'Room';
     if($routeParams.id != undefined){
         
         if($routeParams.id != 0){

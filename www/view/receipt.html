@@ -1,0 +1,27 @@
+<div ng-controller="receiptCTRL" ng-init="initialize()">
+        <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+
+    <md-card style="margin-top:20px" md-theme="default" ng-class="{'card-red': item.PaymentStatus.Status == 'Unpaid', 'card-green': item.PaymentStatus.Status == 'Paid' }" md-theme-watch ng-repeat="item in listOfReceipt">
+            <span class="md-title" style="margin-left: 100px;margin-top: 10px;">
+                <img ng-src="./img/icons/receipt-small.svg" class="md-avatar" alt="room-icon" />
+                {{item.InvoiceNumber}}
+            </span>
+        <md-card-header style="min-height:190px;">
+            <md-card-avatar>
+            
+            </md-card-avatar>
+            <md-card-header-text class="md-title">
+                <span class="md-title space">Name          :    {{item.FullName}}</span>
+                <span class="md-title space">Room No   :    {{item.RoomNo}}</span>
+                <span class="md-title space">Period        :    {{item.Month.MonthName}}-{{item.Year}} </span>
+                <span class="md-title space">Rent (Rs)   :    {{item.RentAmount}} </span>
+                <span class="md-title space">Total(Rs)   :    {{item.TotalAmount}} </span>
+                <span class="md-title" style="margin-left:40px;margin-top: 5px;">
+                        <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'red'}" md-colors-watch="false" ng-show="item.PaymentStatus.Status == 'Unpaid'">Unpaid</md-button>
+                        <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'green'}" md-colors-watch="false" ng-show="item.PaymentStatus.Status == 'Paid'">Paid</md-button>
+                </span>
+            </md-card-header-text>
+        </md-card-header>
+    </md-card>
+    <p ng-hide="listOfReceipt.length" style="text-align: center;">No data available</p>
+</div>

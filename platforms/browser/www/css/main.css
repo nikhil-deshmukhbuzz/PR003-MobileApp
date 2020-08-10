@@ -2,6 +2,27 @@
   color: transparent;
 } */
 
+.text-color-faint{
+  color: #312c2c !important;
+}
+
+.space{
+  white-space: break-spaces;
+}
+.carddemoBasicUsage .card-media {
+  background-color: #999999; 
+}
+
+.plus-button{
+    position: fixed;
+    margin-right: 35px;
+    margin-bottom: 20px;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-color: rgb(40,53,147) !important;
+}
+
 .dashbord-header{
   background-color:rgb(63, 81, 181);
   color: white;
@@ -10,6 +31,30 @@
 .md-subhead {
   font-size: 12px !important;
 }
+.card-title-green{
+  border-style: solid;
+  background-color: green;
+}
+.card-form{
+  border-style: groove;
+}
+
+.card-title-red{
+  border-style: solid;
+  background-color: red;
+}
+
+.card-title-blue{
+  border-style: solid;
+  background-color: blue;
+}
+
+.card-black{
+  border-color: black;
+  border-style: solid;
+  border-width: thin;
+}
+
 .card-green{
   border-color: green;
   border-style: solid;

@@ -14,12 +14,14 @@
    
    <div ng-show="subscriptionScreen">
      <b>You plan expires on.</b>
+     
    </div>
 
 
 
    <!-- payScreen -->         
    <div ng-show="payScreen">
+    <b ng-hide="expireOn == null" style="margin-left: 18%;">You plan expires on {{expireOn | date : "dd-MMM-yy" }}.</b>
     <h4 style="margin-left:70px">Plan Summary</h4>
     <br/>
     <md-divider></md-divider>
@@ -43,15 +45,45 @@
         <md-divider ng-if="!$last"></md-divider>
     </div>
     </md-radio-group>
-    <md-button flex class="md-raised md-primary block" ng-disabled="objSuscription == null" ng-click="checkout()">Pay</md-button>
+    <md-button flex class="md-raised md-primary block" ng-disabled="objSuscription == null"  ng-click="checkout()">Pay</md-button>
    </div>
    <!-- End payScreen -->
 
    <div ng-show="successScreen">
-        Payment is successful
+    <md-card md-theme="default" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Successful Payment</span>
+            <span class="md-subhead" style="margin-top: 30px;">Transaction Id <b style="font-size: 15px;">{{payment_id}}</b></span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-lg card-media">
+                    <img style="height:120px" ng-src="./img/icons/bxs-badge-check.svg" class="md-avatar" alt="icon" />
+            </div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="center center">
+                <md-button flex  class="md-raised md-primary block"  ng-click="done()">Done</md-button>
+        </md-card-actions>
+      </md-card>
    </div>
    <div ng-show="errorScreen">
-        Payment is failure
+        <md-card md-theme="default" md-theme-watch>
+            <md-card-title>
+                <md-card-title-text>
+                <span class="md-headline">Failure in Payment</span>
+                <span class="md-subhead" style="margin-top: 30px;">Reference Id <b style="font-size: 15px;">{{error_reference}}</b></span>
+                </md-card-title-text>
+                <md-card-title-media>
+                <div class="md-media-lg card-media">
+                        <img style="height:120px" ng-src="./img/icons/cross-mark.svg" class="md-avatar" alt="icon" />
+                </div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="center center">
+                    <md-button flex  class="md-raised md-primary block"  ng-click="done()">Try Again</md-button>
+            </md-card-actions>
+        </md-card>
    </div>
 </div>
 

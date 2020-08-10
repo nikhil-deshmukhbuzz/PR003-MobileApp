@@ -1,5 +1,5 @@
 <div ng-controller="noticeperiodCTRL" layout="column" ng-cloak>
-    <md-card md-theme="default" md-theme-watch>
+    <md-card class="card-form" md-theme="default" md-theme-watch>
         <md-card-title>
             <md-card-title-text>
                 <span class="md-headline">{{headline}}</span>
@@ -35,8 +35,9 @@
             </md-card-content>
 
             <md-card-actions layout="row" layout-align="center">
-                    <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
-                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="submit()">SAVE</md-button>
+                <md-button class="md-raised" ng-click="cancel()">CANCEL</md-button>
+                <md-button class="md-raised md-primary save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="submit()">SAVE</md-button>
+                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress || !isEdit" ng-click="checkout()">CHECKOUT</md-button>
             </md-card-actions>
         </form>
     </md-card>      

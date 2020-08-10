@@ -6,6 +6,7 @@
     "use strict";
     
     function onDeviceReady() {
+        console.log(device.cordova);
         // Handle the Cordova pause and resume events
       
         

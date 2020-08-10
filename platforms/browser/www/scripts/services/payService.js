@@ -13,6 +13,10 @@ serv.service('payService', function ($http, config) {
 
     this.pay = function (orderRequest) {
         return $http.post(config.payUrl + '/Payment/Pay', orderRequest);
-
     };
+
+    this.c_pay = function (orderRequest) {
+        return $http.post(config.payUrl + '/Payment/C_Pay', orderRequest);
+    };
+
 });

@@ -18,6 +18,15 @@
     },
     "com.razorpay.cordova": {
       "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-firebase-lib": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
     }
   },
   "dependent_plugins": {}

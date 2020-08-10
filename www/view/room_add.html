@@ -1,5 +1,5 @@
 <div ng-controller="roomCTRL" layout="column" ng-cloak>
-        <md-card md-theme="default" md-theme-watch>
+        <md-card class="card-form" md-theme="default" md-theme-watch>
     
             <md-card-title>
                  <md-card-title-text>
@@ -26,14 +26,16 @@
     
                     <md-input-container class="md-block">
                         <label>Rent (Rs)</label>
-                        <input type="number" onlyDigits required name="rentAmount" ng-model="oRoom.RentAmount">
-                        <small ng-show="form.rentAmount.$invalid && !form.rentAmount.$pristine" class="error"> Rent is required.</small>
+                        <input type="number" onlyDigits required name="rentAmount" ng-model="oRoom.RentAmount" maxlength="6">
+                        <small ng-show="form.rentAmount.$error.required && !form.rentAmount.$pristine" class="error"> Rent is required.</small>
+                        <small ng-show="form.rentAmount.$error.maxlength && !form.rentAmount.$pristine" class="error">Rent should have at most 6 digit.</small>
                     </md-input-container>
 
                     <md-input-container class="md-block">
                         <label>Deposit (Rs)</label>
-                        <input type="number" onlyDigits required name="depositAmount" ng-model="oRoom.DepositAmount">
-                        <small ng-show="form.depositAmount.$invalid && !form.depositAmount.$pristine" class="error"> Deposit is required.</small>
+                        <input type="number" onlyDigits required name="depositAmount" ng-model="oRoom.DepositAmount" maxlength="6">
+                        <small ng-show="form.depositAmount.$error.required && !form.depositAmount.$pristine" class="error"> Deposit is required.</small>
+                        <small ng-show="form.depositAmount.$error.maxlength && !form.depositAmount.$pristine" class="error">Deposit should have at most 6 digit.</small>
                     </md-input-container>
      
                     <md-switch ng-model="oRoom.IsActive" aria-label="Switch">

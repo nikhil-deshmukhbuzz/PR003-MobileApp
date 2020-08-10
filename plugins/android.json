@@ -7,16 +7,25 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.maintaineasy.app"
-    },
-    "cordova-plugin-inappbrowser": {
+    "com.razorpay.cordova": {
       "PACKAGE_NAME": "com.maintaineasy.app"
     },
     "cordova-plugin-cleartext": {
       "PACKAGE_NAME": "com.maintaineasy.app"
     },
-    "com.razorpay.cordova": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.maintaineasy.app"
+    },
+    "cordova-plugin-firebase-lib": {
       "PACKAGE_NAME": "com.maintaineasy.app"
     }
   },
