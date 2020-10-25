@@ -3,6 +3,13 @@ var app = angular.module('rent-module', ['ngMaterial', 'ngRoute', 'ngMessages'])
 app.controller('rentCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,rentService,tenantService) {
 
     $rootScope.toolbar_name = 'Rent';
+
+    if(coreService.getMasters() != null){
+        $rootScope.listOfRent = coreService.getMasters().Rents;
+        $rootScope.tenant = coreService.getMasters().Tenants;
+        $rootScope.payment = coreService.getMasters().PaymentStatus;
+    }
+
     $scope.isEditable = false;
     $scope.isPaid = false;
     $scope.oRentFilter = {};
@@ -48,24 +55,31 @@ app.controller('rentCTRL', function ($scope,$rootScope, $location,$routeParams,c
         ddlYear();
         ddlPaymentStatus();
 
-        coreService.showInd();
-        rentService.getList(coreService.getPGID())
-            .then(function (response) {
-                coreService.hideInd();
-                $rootScope.listOfRent = response.data;
-            }, function (err) {
-                coreService.hideInd();
-                console.log(err.data);
-        });
+        if($rootScope.listOfRent == undefined || $listOfRent.room == null){
+            coreService.showInd();
+            rentService.getList(coreService.getPGID())
+                .then(function (response) {
+                    coreService.hideInd();
+                    $rootScope.listOfRent = response.data;
+                }, function (err) {
+                    coreService.hideInd();
+                    console.log(err.data);
+            });
+        }
+        else{
+            $scope.search();
+        }
     };
 
     var ddlTenant = function(id){
-        tenantService.getList(coreService.getPGID())
-        .then(function (response) {
-                $rootScope.tenant = response.data;
-        }, function (err) {
-            console.log(err.data);
-        });
+        if($rootScope.tenant == undefined || $rootScope.tenant == null){
+            tenantService.getList(coreService.getPGID())
+            .then(function (response) {
+                    $rootScope.tenant = response.data;
+            }, function (err) {
+                console.log(err.data);
+            });
+        }
     };
 
     var ddlYear = function(){
@@ -80,12 +94,14 @@ app.controller('rentCTRL', function ($scope,$rootScope, $location,$routeParams,c
     };
 
     var ddlPaymentStatus = function(){
-        rentService.getPaymentStatus()
-        .then(function (response) {
+        if($rootScope.payment == undefined || $listOfRent.payment == null){
+            rentService.getPaymentStatus()
+            .then(function (response) {
                 $rootScope.payment = response.data;
-        }, function (err) {
-            console.log(err.data);
-        });
+            }, function (err) {
+                console.log(err.data);
+            });
+        }
     };
 
     $scope.edit = function(id){
@@ -115,13 +131,16 @@ app.controller('rentCTRL', function ($scope,$rootScope, $location,$routeParams,c
             coreService.showInd();
             $scope.oRent.PGID = coreService.getPGID();
             rentService.update($scope.oRent)
-                    .then(function (response) {
-                        coreService.hideInd();
-                        coreService.showToast(coreService.message.updated);
-                        $location.path('/rent');
-                    }, function (err) {
-                        coreService.hideInd();
-                        console.log(err.data);
+                .then(function (response) {
+                    $rootScope.listOfRent = null;
+                    coreService.setMastersToNull();
+                    coreService.setMasters();
+                    coreService.hideInd();
+                    coreService.showToast(coreService.message.updated);
+                    $location.path('/rent');
+                }, function (err) {
+                    coreService.hideInd();
+                    console.log(err.data);
                 });
         }
     };

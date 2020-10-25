@@ -1,0 +1,15 @@
+<div ng-controller="notificationCTRL"  ng-init="initialize()" ng-cloak layout-gt-sm="row">
+    <md-content>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="item in listOfNotiication">
+                <img ng-src="./img/icons/round-meeting-room.svg" class="md-avatar" alt="icon" />
+                <div class="md-list-item-text" layout="column">
+                    <h4>{{item.Body}}</h4>
+                    <p>{{ item.CreatedOn }}</p>
+                </div>
+                <md-divider ng-if="!$last"></md-divider>
+            </md-list-item>
+            <p ng-hide="listOfNotiication.length" style="text-align: center;">No data available</p>
+        </md-list> 
+    </md-content>
+</div>

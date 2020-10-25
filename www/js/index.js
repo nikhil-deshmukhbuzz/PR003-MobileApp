@@ -31,6 +31,8 @@ var app = {
     onDeviceReady: function() {
         deviceId = device.uuid;
         this.receivedEvent('deviceready');
+        RazorpayCheckout.on('payment.success', successCallback)
+        RazorpayCheckout.on('payment.cancel', cancelCallback)
     },
 
 
@@ -49,8 +51,8 @@ var app = {
 
 var onResume = function(event) {
     // Re-register the payment success and cancel callbacks
-    RazorpayCheckout.on('payment.success', successCallback)
-    RazorpayCheckout.on('payment.cancel', cancelCallback)
+         RazorpayCheckout.on('payment.success', successCallback)
+         RazorpayCheckout.on('payment.cancel', cancelCallback)
     // Pass on the event to RazorpayCheckout
     RazorpayCheckout.onResume(event);
   };

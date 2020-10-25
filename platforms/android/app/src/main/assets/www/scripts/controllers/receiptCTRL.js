@@ -2,6 +2,7 @@ var app = angular.module('receipt-module', ['ngMaterial', 'ngRoute', 'ngMessages
 
 app.controller('receiptCTRL', function ($scope,$rootScope,$location,coreService,rentService) {
 
+    $rootScope.toolbar_name = 'Receipt';
     var tenant = coreService.getTenant();
     var pg = coreService.getTenant().PG;
 

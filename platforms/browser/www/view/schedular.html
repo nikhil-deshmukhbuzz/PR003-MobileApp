@@ -1,0 +1,9 @@
+<div ng-controller="schedularCTRL">
+<md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button class="md-raised md-primary" ng-click="rentCalculation()" ng-disabled="isProgress">Rent Calcus</md-button>
+        <md-button class="md-raised md-primary" ng-click="save_monthly_rentDetails_XL()" ng-disabled="isProgress">Save XL</md-button>
+        <md-button class="md-raised md-warn" ng-click="sendEmailToPG()" ng-disabled="isProgress">Send Email</md-button>
+        <md-button class="md-raised md-warn" ng-click="sendEmailToPG()" ng-disabled="isProgress">Send Notify</md-button>
+    </section>
+</div>

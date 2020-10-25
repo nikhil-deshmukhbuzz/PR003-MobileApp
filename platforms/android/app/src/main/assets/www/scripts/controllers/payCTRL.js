@@ -2,7 +2,8 @@ var app = angular.module('pay-module', ['ngMaterial', 'ngRoute', 'ngMessages']);
 
 app.controller('payCTRL', function ($scope,$rootScope, $location,$routeParams,$mdSidenav,coreService,payService,suscriptionService) {
 
-
+    $rootScope.toolbar_name = 'Suscription';
+    
     if($mdSidenav('left').isOpen())
     $scope.toggleLeft();
 

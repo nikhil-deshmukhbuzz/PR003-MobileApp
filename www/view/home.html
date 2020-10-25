@@ -150,4 +150,132 @@
             </md-card-header>
         </md-card>
     </div>
+
+    <div ng-show="vDashboardAdmin">
+        <div layout="row" style="overflow:scroll">
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-blue" ng-click="pgClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">Total PG</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:blue"> 
+                            {{("00"+dashboard.NoOfPGOwner).slice(-3)}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/building-solid.svg" class="s36" aria-label="Cake">
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-green" ng-click="activePgClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">Active PG</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                            <span class="md-headline text-center" ng-hide="dashboard == null" style="color:green">
+                                {{("00"+dashboard.NoOfActive).slice(-3)}}
+                            </span>
+                        <md-icon md-svg-src="./img/icons/building-solid.svg" class="s36" aria-label="Cake"></md-icon> 
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-red" ng-click="inActivePgClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">De-Active PG</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:red">
+                            {{("00"+dashboard.NoOfInActive).slice(-3)}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/building-solid.svg" class="s36" aria-label="Cake"></md-icon> 
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+            <md-card md-theme="default" md-theme-watch class="dashbord-card card-pink" ng-click="dueRentClk()">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-subhead text-center">Complaint</span>
+                        <div layout="row" layout-sm="column" layout-align="space-around"><md-progress-circular class="text-center" ng-show="dashboard == null" class="md-hue-2" md-diameter="20px"></md-progress-circular> </div>
+                        <span class="md-headline text-center" ng-hide="dashboard == null" style="color:rgb(233, 12, 148)">
+                            {{0}}
+                        </span>
+                        <md-icon md-svg-src="./img/icons/issue-reopened.svg" class="s36" aria-label="Cake"></md-icon> 
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
+
+        <div style="margin-top: 25px;">
+            <md-card class="card-blue" md-theme="default" md-theme-watch ng-show="isPgs">
+                <md-card-title class="dashbord-header card-title-blue"> 
+                    <md-card-title-text>
+                        <span class="md-subhead">All PG</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-content>
+                    <md-list style="margin-top: 5px;">
+                        <md-list-item class="md-3-line" ng-repeat="item in pgs">
+                            <div class="md-list-item-text">
+                                <h4>PG No : {{item.PGNo}}</h4>
+                                <h4>{{item.Name}}</h4>
+                                <h4>Owner Name : {{item.OwnerName}}</h4>
+                                <h4>Mobile No : {{item.MobileNo}}</h4>
+                                <md-button style="margin-bottom: 15px;"  flex-gt-md="15" flex="15" md-colors="{background: 'red'}" md-colors-watch="false" ng-show="item.IsActive == false">Deactivated</md-button>
+                                <md-button style="margin-bottom: 15px;" flex-gt-md="15" flex="15" md-colors="{background: 'green'}" md-colors-watch="false" ng-show="item.IsActive == true">Activated</md-button>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                        <p ng-hide="pgs.length" style="text-align: center;">No data available</p>
+                    </md-list>
+                </md-content>
+            </md-card>
+
+            <md-card class="card-green" md-theme="default" md-theme-watch ng-show="isActivePgs">
+                <md-card-title class="dashbord-header card-title-green">
+                    <md-card-title-text>
+                        <span class="md-subhead">Active PG</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-content>
+                    <md-list style="margin-top: 5px;">
+                        <md-list-item class="md-3-line" ng-repeat="item in activePgs">
+                            <div class="md-list-item-text">
+                                <h4>PG No : {{item.PGNo}}</h4>
+                                <h4>{{item.Name}}</h4>
+                                <h4>Owner Name : {{item.OwnerName}}</h4>
+                                <h4>Mobile No : {{item.MobileNo}}</h4>
+                                <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'red'}" md-colors-watch="false" ng-show="item.IsActive == false">Deactivated</md-button>
+                                <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'green'}" md-colors-watch="false" ng-show="item.IsActive == true">Activated</md-button>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                        <p ng-hide="activePgs.length" style="text-align: center;">No data available</p>
+                    </md-list>
+                </md-content>
+            </md-card>
+
+            <md-card class="card-red" md-theme="default" md-theme-watch ng-show="isInActivePgs">
+                <md-card-title class="dashbord-header card-title-red">
+                    <md-card-title-text>
+                        <span class="md-subhead">De-Active PG</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-content>
+                    <md-list>
+                        <md-list-item class="md-3-line" ng-repeat="item in inActivePgs">
+                            <div class="md-list-item-text">
+                                <h4>PG No : {{item.PGNo}}</h4>
+                                <h4>{{item.Name}}</h4>
+                                <h4>Owner Name : {{item.OwnerName}}</h4>
+                                <h4>Mobile No : {{item.MobileNo}}</h4>
+                                <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'red'}" md-colors-watch="false" ng-show="item.IsActive == false">Deactivated</md-button>
+                                <md-button  flex-gt-md="15" flex="15" md-colors="{background: 'green'}" md-colors-watch="false" ng-show="item.IsActive == true">Activated</md-button>
+                            </div>
+                            <md-divider ng-if="!$last"></md-divider>
+                        </md-list-item>
+                        <p ng-hide="inActivePgs.length" style="text-align: center;">No data available</p>
+                    </md-list>
+                </md-content>
+            </md-card>
+        </div>
+    </div>
+
 </div>

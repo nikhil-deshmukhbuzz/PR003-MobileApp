@@ -1,57 +1,81 @@
 <div layout="column" ng-cloak ng-controller="registrationCTRL">
-    <md-card class="card-form" md-theme="default" md-theme-watch>
-        <md-card-title>
-            <md-card-title-text>
-            <span class="md-headline">Registration</span>
-            </md-card-title-text>
-        </md-card-title>
+    <div ng-hide="successScreen">
+        <md-card class="card-form" md-theme="default" md-theme-watch>
+            <md-toolbar md-scroll-shrink>
+                <div class="md-toolbar-tools" style="margin-left: 100px;">Registration</div>
+            </md-toolbar>
 
-        <md-progress-linear md-mode="indeterminate" ng-show="isProgress"></md-progress-linear>
+            <form name="form">
+                <md-card-content layout-padding>
+                    <md-input-container class="md-block">
+                        <label>PG Name</label>
+                        <input required name="pgname" ng-model="oRegistration.PGName">
+                        <small ng-show="form.pgname.$invalid && !form.pgname.$pristine" class="error"> PG name is required.</small>
+                    </md-input-container>
 
-        <form name="form">
-            <md-card-content layout-padding>
-                <md-input-container class="md-block">
-                    <label>PG Name</label>
-                    <input required name="pgname" ng-model="oRegistration.PGName">
-                    <small ng-show="form.pgname.$invalid && !form.pgname.$pristine" class="error"> PG name is required.</small>
-                </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Your Full Name</label>
+                        <input required name="name" ng-model="oRegistration.FullName">
+                        <small ng-show="form.name.$invalid && !form.name.$pristine" class="error"> Full name is required.</small>
+                    </md-input-container>
 
-                <md-input-container class="md-block">
-                    <label>Your Full Name</label>
-                    <input required name="name" ng-model="oRegistration.FullName">
-                    <small ng-show="form.name.$invalid && !form.name.$pristine" class="error"> Full name is required.</small>
-                </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Mobile No</label>
+                        <input required name="mobile" ng-model="oRegistration.MobileNo">
+                        <small ng-show="form.mobile.$invalid && !form.mobile.$pristine" class="error"> Mobile no is required.</small>
+                    </md-input-container>
 
-                <md-input-container class="md-block">
-                    <label>Mobile No</label>
-                    <input required name="mobile" ng-model="oRegistration.MobileNo">
-                    <small ng-show="form.mobile.$invalid && !form.mobile.$pristine" class="error"> Mobile no is required.</small>
-                </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Email</label>
+                        <input  name="email" ng-model="oRegistration.Email">
+                        <small ng-show="form.email.$invalid && !form.email.$pristine" class="error"> Email is required.</small>
+                    </md-input-container>
 
-                <md-input-container class="md-block">
-                    <label>Email</label>
-                    <input  name="email" ng-model="oRegistration.Email">
-                    <small ng-show="form.email.$invalid && !form.email.$pristine" class="error"> Email is required.</small>
-                </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Address</label>
+                        <input required name="address" ng-model="oRegistration.Address">
+                        <small ng-show="form.address.$invalid && !form.address.$pristine" class="error"> Address is required.</small>
+                    </md-input-container>
 
-                <md-input-container class="md-block">
-                    <label>Address</label>
-                    <input required name="address" ng-model="oRegistration.Address">
-                    <small ng-show="form.address.$invalid && !form.address.$pristine" class="error"> Address is required.</small>
-                </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>City</label>
+                        <input required name="city" ng-model="oRegistration.City">
+                        <small ng-show="form.city.$invalid && !form.city.$pristine" class="error"> City is required.</small>
+                    </md-input-container>
+                    <md-checkbox required ng-model="oRegistration.FeeCheck" aria-label="FeeCheck">
+                     Rs 50 for registration fee 
+                    </md-checkbox>
 
-                <md-input-container class="md-block">
-                    <label>City</label>
-                    <input required name="city" ng-model="oRegistration.City">
-                    <small ng-show="form.city.$invalid && !form.city.$pristine" class="error"> City is required.</small>
-                </md-input-container>
+                </md-card-content>
 
-            </md-card-content>
-
-            <md-card-actions layout="row" layout-align="center">
-                <md-button class="md-raised" ng-click="cancel(form)">CANCEL</md-button>
-                <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="registrationSubmit(form)">SAVE</md-button>
+                <md-card-actions layout="row" layout-align="center">
+                    <md-button class="md-raised" ng-click="cancel(form)">Cancel</md-button>
+                    <md-button class="md-raised md-warn save-btn-margin" ng-disabled="form.$invalid || isProgress" ng-click="registrationSubmit(form)">Reister</md-button>
+                </md-card-actions>
+                <md-progress-circular ng-show="isProgress" class="md-accent" md-diameter="20" style="margin-left: 100px;margin-bottom: 10px;"></md-progress-circular>
+            </form>
+        </md-card> 
+    </div>  
+    <div ng-show="successScreen">
+        <md-card md-theme="default" md-theme-watch>
+            <md-toolbar md-scroll-shrink>
+                <div class="md-toolbar-tools" style="margin-left: 100px;">Registration</div>
+            </md-toolbar>
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Registration Successfull </span>
+                <span class="md-subhead" style="margin-top: 30px;">Transaction Id <b style="font-size: 15px;">{{payment_id}}</b></span>
+                <span class="md-subhead" style="margin-top: 30px;"><b style="font-size: 15px;">For login use your registered mobile number</b></span>
+              </md-card-title-text>
+              <md-card-title-media>
+                <div class="md-media-lg card-media">
+                    <img style="height:120px" ng-src="./img/icons/bxs-badge-check.svg" class="md-avatar" alt="icon" />
+                </div>
+              </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="center center">
+                <md-button flex  class="md-raised md-primary block"  ng-click="done()">Done</md-button>
             </md-card-actions>
-        </form>
-    </md-card>      
+          </md-card>
+    </div>   
 </div>

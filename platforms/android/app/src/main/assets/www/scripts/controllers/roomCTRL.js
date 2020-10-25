@@ -2,7 +2,12 @@ var app = angular.module('room-module', ['ngMaterial', 'ngRoute', 'ngMessages'])
 
 app.controller('roomCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,roomService,roomsharingService) {
 
-    
+    $rootScope.toolbar_name = 'Room';
+    if(coreService.getMasters() != null){
+        $rootScope.listOfRoom = coreService.getMasters().Rooms;
+        $rootScope.roomSharing = coreService.getMasters().RoomSharings;
+    }
+
     if($routeParams.id != undefined){
         
         if($routeParams.id != 0){
@@ -27,24 +32,28 @@ app.controller('roomCTRL', function ($scope,$rootScope, $location,$routeParams,c
     
     $scope.initialize = function(){
         ddlRoomSharing();
-        coreService.showInd();
-        roomService.getList(coreService.getPGID())
-            .then(function (response) {
-                coreService.hideInd();
-                $rootScope.listOfRoom = response.data;
-            }, function (err) {
-                coreService.hideInd();
-                console.log(err.data);
-        });
+        if($rootScope.listOfRoom == undefined || $rootScope.listOfRoom == null){
+            coreService.showInd();
+            roomService.getList(coreService.getPGID())
+                .then(function (response) {
+                    coreService.hideInd();
+                    $rootScope.listOfRoom = response.data;
+                }, function (err) {
+                    coreService.hideInd();
+                    console.log(err.data);
+            });
+        }
     };
 
     var ddlRoomSharing = function(){
-        roomsharingService.getList(coreService.getPGID())
-        .then(function (response) {
-            $rootScope.roomSharing = response.data;
-        }, function (err) {
-            console.log(err.data);
-        });
+        if($rootScope.roomSharing == undefined || $rootScope.roomSharing == null){
+            roomsharingService.getList(coreService.getPGID())
+            .then(function (response) {
+                $rootScope.roomSharing = response.data;
+            }, function (err) {
+                console.log(err.data);
+            });
+        }
     };
 
     $scope.edit = function(id){
@@ -62,6 +71,9 @@ app.controller('roomCTRL', function ($scope,$rootScope, $location,$routeParams,c
             $scope.oRoom.PGID = coreService.getPGID();
             roomService.add($scope.oRoom)
                 .then(function (response) {
+                    $rootScope.listOfRoom = null;
+                    coreService.setMastersToNull();
+                    coreService.setMasters();
                     coreService.hideInd();
                     coreService.showToast(coreService.message.added);
                     $location.path('/room');
@@ -75,6 +87,9 @@ app.controller('roomCTRL', function ($scope,$rootScope, $location,$routeParams,c
             $scope.oRoom.PGID = coreService.getPGID();
             roomService.update($scope.oRoom)
                     .then(function (response) {
+                        $rootScope.listOfRoom = null;
+                        coreService.setMastersToNull();
+                        coreService.setMasters();
                         coreService.hideInd();
                         coreService.showToast(coreService.message.updated);
                         $location.path('/room');

@@ -13,6 +13,10 @@
   background-color: #999999; 
 }
 
+md-card{
+  outline: none !important;
+}
+
 .plus-button{
     position: fixed;
     margin-right: 35px;
@@ -29,7 +33,7 @@
 }
 
 .md-subhead {
-  font-size: 12px !important;
+  font-size: 15px !important;
 }
 .card-title-green{
   border-style: solid;
@@ -114,14 +118,14 @@
 .save-btn-margin{
   margin-left: 20px;
 }
-/*************************************************************/
+
 .inputclass::-webkit-input-placeholder {
   text-align: center;
   }
-  .inputclass:-moz-placeholder { /* Firefox 18- */
+  .inputclass:-moz-placeholder { 
   text-align: center;  
   }
-  .inputclass::-moz-placeholder {  /* Firefox 19+ */
+  .inputclass::-moz-placeholder {  
   text-align: center;  
   }
   .inputclass:-ms-input-placeholder {  
@@ -132,9 +136,6 @@ input{
   font-size: 20px;
 }
 
-
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
 
 @font-face {
   font-family: Poppins-Regular;
@@ -156,9 +157,6 @@ input{
   src: url('../fonts/poppins/Poppins-SemiBold.ttf'); 
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ RESTYLE TAG ]*/
-
 * {
 	margin: 0px; 
 	padding: 0px; 
@@ -170,7 +168,6 @@ body, html {
 	font-family: Poppins-Regular, sans-serif;
 }
 
-/*---------------------------------------------*/
 a {
 	font-family: Poppins-Regular;
 	font-size: 14px;
@@ -192,7 +189,6 @@ a:hover {
   color: #57b846;
 }
 
-/*---------------------------------------------*/
 h1,h2,h3,h4,h5,h6 {
 	margin: 0px;
 }
@@ -211,12 +207,6 @@ ul, li {
 }
 
 
-/*---------------------------------------------*/
-input {
-	outline: none;
-	border: none;
-}
-
 input[type="number"] {
     -moz-appearance: textfield;
     appearance: none;
@@ -232,9 +222,9 @@ textarea {
   outline: none;
   border: none;
 }
-
+/*
 textarea:focus, input:focus {
-  border-color: transparent !important;
+ border-color: transparent !important;
 }
 
 input:focus::-webkit-input-placeholder { color:transparent; }
@@ -256,13 +246,13 @@ textarea::-webkit-input-placeholder {color: #999999;}
 textarea:-moz-placeholder {color: #999999;}
 textarea::-moz-placeholder {color: #999999;}
 textarea:-ms-input-placeholder {color: #999999;}
-
+*/
 label {
   display: block;
   margin: 0;
 }
 
-/*---------------------------------------------*/
+
 button {
 	outline: none !important;
 	border: none;
@@ -277,9 +267,6 @@ iframe {
 	border: none !important;
 }
 
-
-/*//////////////////////////////////////////////////////////////////
-[ Utility ]*/
 .txt1 {
   font-family: Poppins-Regular;
   font-size: 13px;
@@ -287,8 +274,7 @@ iframe {
   color: #999999;
 }
 
-/*//////////////////////////////////////////////////////////////////
-[ login ]*/
+
 
 .limiter {
   width: 100%;
@@ -319,8 +305,6 @@ iframe {
   position: relative;
 }
 
-/*==================================================================
-[ Title form ]*/
 .login100-form-title {
   width: 100%;
   position: relative;
@@ -363,9 +347,6 @@ iframe {
 }
 
 
-/*==================================================================
-[ Form ]*/
-
 .login100-form {
   width: 100%;
   display: -webkit-box;
@@ -379,8 +360,6 @@ iframe {
 }
 
 
-/*------------------------------------------------------------------
-[ Input ]*/
 
 .wrap-input100 {
   width: 100%;
@@ -402,7 +381,6 @@ iframe {
 
 }
 
-/*---------------------------------------------*/
 .input100 {
   font-family: Poppins-Regular;
   font-size: 15px;
@@ -443,7 +421,7 @@ iframe {
 }
 
 
-/*---------------------------------------------*/
+
 input.input100 {
   height: 45px;
 }
@@ -457,8 +435,7 @@ input.input100 {
   width: 100%;
 }
 
-/*==================================================================
-[ Restyle Checkbox ]*/
+
 
 .input-checkbox100 {
   display: none;
@@ -508,8 +485,6 @@ input.input100 {
   color: #57b846;
 }
 
-/*------------------------------------------------------------------
-[ Button ]*/
 .container-login100-form-btn {
   margin-left: 30%;
   width: 100%;
@@ -551,8 +526,6 @@ input.input100 {
 }
 
 
-/*------------------------------------------------------------------
-[ Responsive ]*/
 
 @media (max-width: 576px) {
   .login100-form {
@@ -576,8 +549,7 @@ input.input100 {
 }
 
 
-/*------------------------------------------------------------------
-[ Alert validate ]*/
+
 
 .validate-input {
   position: relative;

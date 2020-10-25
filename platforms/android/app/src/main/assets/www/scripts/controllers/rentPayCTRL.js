@@ -2,7 +2,8 @@ var app = angular.module('rentPay-module', ['ngMaterial', 'ngRoute', 'ngMessages
 
 app.controller('rentPayCTRL', function ($scope,$rootScope, $location,$routeParams,$mdSidenav,coreService,payService,rentService) {
 
-
+    $rootScope.toolbar_name = 'Pay Rent';
+    
     if($mdSidenav('left').isOpen())
     $scope.toggleLeft();
 

@@ -1,0 +1,34 @@
+<md-toolbar class="md-hue-2"  md-scroll-shrink="true" style="position: fixed;">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleLeft()">
+            <md-icon  md-svg-icon="img/icons/menu.svg"></md-icon>
+        </md-button>
+        
+        <h2 flex md-truncate>Dashboard</h2>
+
+        <md-button class="md-icon-button" aria-label="Settings">
+                <md-icon  md-svg-icon="img/icons/notification_important-white-18dp.svg"></md-icon>
+            </md-button>
+    </div>
+</md-toolbar>
+
+<section layout="row" flex>
+    <md-sidenav class="md-sidenav-left" md-component-id="left"
+                md-disable-backdrop="" md-whiteframe="4" style="position: fixed;">
+
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools" style="margin-top:10px">
+                <img style="height:70px" ng-src="img/icons/bx-user.svg" class="md-avatar" alt="room-icon" />
+                Dashboard
+            </h1>
+        </md-toolbar>
+
+        <md-content layout-margin="">
+        </md-content>
+    </md-sidenav>
+    
+    <md-content class="md-block"  layout-padding style="margin-top: 60px; width:1000px">
+        <span><img src="img/icons/skeleton_loading.gif" alt="this slowpoke moves"  width="365" height="450"/></span>
+        <span><img src="img/icons/skeleton_loading.gif" alt="this slowpoke moves"  width="365" height="450"/></span>
+    </md-content>
+</section>

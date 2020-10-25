@@ -5,7 +5,7 @@ serv.constant('config', {
     baseUrl: 'https://eymh4odut4.execute-api.ap-south-1.amazonaws.com/Prod/api/Mobile',
      payUrl: 'https://pess1g5cy5.execute-api.ap-south-1.amazonaws.com/Prod/api'
 });
-serv.service('coreService', function ($http, $rootScope, $timeout,$mdToast) {
+serv.service('coreService', function ($http, $rootScope, $timeout,$mdToast,config) {
 
     this.showToast = function(msg){
         $mdToast.show(
@@ -176,6 +176,23 @@ serv.service('coreService', function ($http, $rootScope, $timeout,$mdToast) {
         localStorage.clear();
         window.location.href = 'login.html';
     };
+
+    this.setMasters = function(){
+        $http.get(config.baseUrl + '/Master/Load?pgId=' + this.getPGID())
+        .then(function (response) {
+            localStorage.Masters = angular.toJson(response.data);
+        }, function (err) { 
+        });
+    };
+
+    this.setMastersToNull = function(){
+        localStorage.Masters = null;
+    };
+
+    this.getMasters = function(){
+        return angular.fromJson(localStorage.Masters);
+    };
+
 });
 
 serv.directive('onlyDigits', function () {
@@ -199,6 +216,7 @@ serv.directive('onlyDigits', function () {
         }
     };
 });
+
 
 serv.filter('INR', function () {
     return function (input) {

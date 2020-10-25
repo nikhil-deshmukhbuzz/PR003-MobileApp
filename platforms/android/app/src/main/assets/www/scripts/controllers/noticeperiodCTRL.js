@@ -1,7 +1,7 @@
 var app = angular.module('noticeperiod-module', ['ngMaterial', 'ngRoute', 'ngMessages']);
 
 app.controller('noticeperiodCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,noticeperiodService,roomService,tenantService) {
-    alert('data');
+    
     if($routeParams.id != undefined){
         
         if($routeParams.id != 0){

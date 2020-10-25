@@ -21,22 +21,13 @@
     <!-- Angular Material style sheet -->
     <!-- <link href="scripts/angular/angular-material.min.css" rel="stylesheet" /> -->
 
-        <!--===============================================================================================-->
-        <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+
         <!--=======================================================================================-->
         <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-        <!--=======================================================================================-->
-        <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-        <!--=======================================================================================-->
-        <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-        <!--=======================================================================================-->
-        <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-        <!--=======================================================================================-->
-        <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
         <!--===============================================================================================-->
         <link href="scripts/angular/angular-material.min.css" rel="stylesheet" />
 
-        <link rel="stylesheet" type="text/css" href="css/util.css">
+        <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <!--===============================================================================================-->
  
@@ -63,6 +54,7 @@
     <div ng-show="registration" ng-include="'view/template/registration.html'"></div>
     <div ng-show="login" ng-include="'view/template/login.html'"></div>
     <div ng-show="otp" ng-include="'view/template/otp.html'"></div>
+    <div ng-show="prelogin" ng-include="'view/template/pre_login.html'"></div>
 
     <md-toolbar class="md-hue-2" ng-show="home" md-scroll-shrink="true" style="position: fixed;">
         <div class="md-toolbar-tools">
@@ -71,6 +63,10 @@
             </md-button>
             
             <h2 flex md-truncate>{{toolbar_name}}</h2>
+
+            <md-button class="md-icon-button" ng-click="showNotification('/notification')" aria-label="Settings">
+                <md-icon  md-svg-icon="img/icons/notification_important-white-18dp.svg"></md-icon>
+            </md-button>
         </div>
     </md-toolbar>
 
@@ -87,21 +83,23 @@
             </md-toolbar>
     
             <md-content layout-margin="">
-            <div  style="margin-bottom: 10px;" ng-click="showMenu('/home')">
-                <md-icon md-svg-src="img/icons/dashboard-outlined.svg" aria-label="logout" style="margin-right: 10px;margin-left: 20px;"></md-icon>
-                        Dashboard
-            </div>
-            <hr/>
-            <div ng-click="showMenu(item.Url)" ng-repeat="item in menu" style="margin-bottom: 10px;">
-                <md-icon md-svg-src="img/icons/{{item.ImageUrl}}" aria-label="menu-icon " style="margin-right: 10px;margin-left: 20px;"></md-icon>
-                {{item.MenuName}}
-            </div>
-            <hr/>
-            <div  style="margin-bottom: 10px;" ng-click="logout()">
-                <md-icon md-svg-src="img/icons/power-off.svg" aria-label="logout" style="margin-right: 10px;margin-left: 20px;"></md-icon>
-                    Logout
-             </div>
-            
+                <div  style="margin-bottom: 10px;outline: none;" ng-click="showMenu('/home')">
+                    <md-icon md-svg-src="img/icons/dashboard-outlined.svg" aria-label="logout" style="margin-right: 10px;margin-left: 20px;"></md-icon>
+                            Dashboard
+                </div>
+                <hr/>
+                <div ng-click="showMenu(item.Url)" ng-repeat="item in menu" style="margin-bottom: 10px;outline: none;">
+                    <md-icon md-svg-src="img/icons/{{item.ImageUrl}}" aria-label="menu-icon " style="margin-right: 10px;margin-left: 20px;"></md-icon>
+                    {{item.MenuName}}
+                </div>
+                <hr/>
+                <div  style="margin-bottom: 10px;outline: none;" ng-click="logout()">
+                    <md-icon md-svg-src="img/icons/power-off.svg" aria-label="logout" style="margin-right: 10px;margin-left: 20px;"></md-icon>
+                        Logout
+                </div>
+                <div  style="margin-bottom: 10px;margin-left: 30px;outline: none;">
+                        version: 1.0.0
+                </div>
             </md-content>
         </md-sidenav>
         
@@ -126,6 +124,8 @@
     <script src="scripts/services/dashboardService.js"></script>
     <script src="scripts/services/payService.js"></script>
     <script src="scripts/services/suscriptionService.js"></script>
+    <script src="scripts/services/schedularService.js"></script>
+    <script src="scripts/services/notificationService.js"></script>
 
     <script src="scripts/controllers/homeCTRL.js"></script>
     <script src="scripts/controllers/requestCTRL.js"></script>
@@ -139,6 +139,8 @@
     <script src="scripts/controllers/successCTRL.js"></script>
     <script src="scripts/controllers/receiptCTRL.js"></script>
     <script src="scripts/controllers/rentPayCTRL.js"></script>
+    <script src="scripts/controllers/schedularCTRL.js"></script>
+    <script src="scripts/controllers/notificationCTRL.js"></script>
     <script src="scripts/controllers/indexCTRL.js"></script>
 </body>
 </html>

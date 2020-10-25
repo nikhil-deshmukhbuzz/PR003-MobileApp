@@ -3,6 +3,12 @@ var app = angular.module('np-module', ['ngMaterial', 'ngRoute', 'ngMessages']);
 app.controller('npCTRL', function ($scope,$rootScope, $location,$routeParams,coreService,noticeperiodService,roomService,tenantService) {
     
     $rootScope.toolbar_name = 'Notice Period';
+    if(coreService.getMasters() != null){
+        $rootScope.listOfTenant = coreService.getMasters().NoticePeriods;
+        $rootScope.room = coreService.getMasters().Rooms;
+        $rootScope.tenant = coreService.getMasters().Tenants;
+        $rootScope.tenantList = coreService.getMasters().Tenants;
+    }
 
     if($routeParams.id != undefined){
         
@@ -29,35 +35,41 @@ app.controller('npCTRL', function ($scope,$rootScope, $location,$routeParams,cor
     $scope.initialize = function(){
         ddlRoom();
         ddlTenant(0);
-        coreService.showInd();
-        noticeperiodService.getList(coreService.getPGID())
-            .then(function (response) {
-                coreService.hideInd();
-                $rootScope.listOfTenant = response.data;
-            }, function (err) {
-                coreService.hideInd();
-                console.log(err.data);
-        });
+        if($rootScope.listOfTenant == undefined || $rootScope.listOfTenant == null){
+            coreService.showInd();
+            noticeperiodService.getList(coreService.getPGID())
+                .then(function (response) {
+                    coreService.hideInd();
+                    $rootScope.listOfTenant = response.data;
+                }, function (err) {
+                    coreService.hideInd();
+                    console.log(err.data);
+            });
+        }
     };
 
     var ddlRoom = function(){
-        roomService.getList(coreService.getPGID())
-        .then(function (response) {
-            $rootScope.room = response.data;
-        }, function (err) {
-            console.log(err.data);
-        });
+        if($rootScope.room == undefined || $rootScope.room == null){
+            roomService.getList(coreService.getPGID())
+            .then(function (response) {
+                $rootScope.room = response.data;
+            }, function (err) {
+                console.log(err.data);
+            });
+        }
     };
 
     var ddlTenant = function(id){
-        tenantService.getList(coreService.getPGID())
-        .then(function (response) {
-                $rootScope.tenant = response.data;
-                $rootScope.tenantList = response.data;
-            
-        }, function (err) {
-            console.log(err.data);
-        });
+        if($rootScope.tenant == undefined || $rootScope.tenant == null){
+            tenantService.getList(coreService.getPGID())
+            .then(function (response) {
+                    $rootScope.tenant = response.data;
+                    $rootScope.tenantList = response.data;
+                
+            }, function (err) {
+                console.log(err.data);
+            });
+        }
     };
 
     $scope.roomNoChangedEvent = function(data){
@@ -77,13 +89,16 @@ app.controller('npCTRL', function ($scope,$rootScope, $location,$routeParams,cor
         coreService.showInd();
         $scope.oTenant.PGID = coreService.getPGID();
         noticeperiodService.update($scope.oTenant)
-                .then(function (response) {
-                    coreService.hideInd();
-                    coreService.showToast(coreService.message.updated);
-                    $location.path('/noticeperiod');
-                }, function (err) {
-                    coreService.hideInd();
-                    console.log(err.data);
+            .then(function (response) {
+                $rootScope.listOfTenant = null;
+                coreService.setMastersToNull();
+                coreService.setMasters();
+                coreService.hideInd();
+                coreService.showToast(coreService.message.updated);
+                $location.path('/noticeperiod');
+            }, function (err) {
+                coreService.hideInd();
+                console.log(err.data);
             });
     };
 
@@ -91,13 +106,16 @@ app.controller('npCTRL', function ($scope,$rootScope, $location,$routeParams,cor
         coreService.showInd();
         $scope.oTenant.PGID = coreService.getPGID();
         noticeperiodService.checkout($scope.oTenant)
-                .then(function (response) {
-                    coreService.hideInd();
-                    coreService.showToast(coreService.message.updated);
-                    $location.path('/noticeperiod');
-                }, function (err) {
-                    coreService.hideInd();
-                    console.log(err.data);
+            .then(function (response) {
+                $rootScope.listOfTenant = null;
+                coreService.setMastersToNull();
+                coreService.setMasters();
+                coreService.hideInd();
+                coreService.showToast(coreService.message.updated);
+                $location.path('/noticeperiod');
+            }, function (err) {
+                coreService.hideInd();
+                console.log(err.data);
             });
     };
 });

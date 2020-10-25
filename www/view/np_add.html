@@ -10,7 +10,7 @@
             <md-card-content layout-padding>
                 <md-input-container>
                     <label>Room No</label>
-                    <md-select ng-model="oTenant.RoomID">
+                    <md-select ng-model="oTenant.RoomID" required>
                         <md-option ng-repeat="r in room" ng-value="r.RoomID" ng-click="roomNoChangedEvent(r)">
                         {{r.RoomNo}}
                         </md-option>
@@ -19,7 +19,7 @@
 
                 <md-input-container>
                     <label>Tenant</label>
-                    <md-select ng-model="oTenant.TenantID">
+                    <md-select ng-model="oTenant.TenantID" required>
                         <md-option ng-repeat="t in tenant" ng-value="t.TenantID" >
                         {{t.FullName}}
                         </md-option>
@@ -29,8 +29,8 @@
  
 
                 <md-input-container  class="md-block">
-                        <label>"Check-Out Date</label>
-                    <md-datepicker class="md-block" ng-model="oTenant. CheckOutDate" aria-label="Check In Date"></md-datepicker>
+                    <label>"Check-Out Date</label>
+                    <md-datepicker class="md-block" ng-model="oTenant. CheckOutDate" aria-label="Check In Date" required></md-datepicker>
                 </md-input-container>
             </md-card-content>
 

@@ -5,4 +5,9 @@ serv.service('dashboardService', function ($http, config) {
         return $http.get(config.baseUrl + '/Dashboard/PGOwner?pgId=' + pgId);
 
     };
+
+    this.admin = function () {
+        return $http.get(config.baseUrl + '/Dashboard/Admin');
+
+    };
 });
